@@ -253,57 +253,81 @@ kyodai.loadmap = function(mapnum)
 {
   kyodai.block = {};
   kyodai.shape = [];
-  var map = ['1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1'];
-      var blocks = map[0].split("\n");
-      blen = blocks.length;
-	  alert(blen);
-      bxlen = blocks[0].length;
-      for(var x=0; x<blen; x++)
+  var map = ['1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1',
+             '-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-',
+             '1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1',
+             '-------------------\n----11111-11111----\n---111111-111111---\n--111111---111111--\n-111111-----111111-\n-------------------\n-111111-----111111-\n--111111---111111--\n---111111-111111---\n----11111-11111----\n-------------------',
+             '---1-----1-----1---\n--111---111---111--\n-11111-11111-11111-\n--111---111---111--\n---1-----1-----1---\n-------------------\n-11-11-11-11-11-11-\n-1---1-1---1-1---1-\n---1-----1-----1---\n-1---1-1---1-1---1-\n-11-11-11-11-11-11-',
+             '11--1--11111--1--11\n1--1--1-----1--1--1\n1-1--1--111--1--1-1\n1-1-1--1---1--1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1--1---1--1-1-1\n1-1--1--111--1--1-1\n1--1--1-----1--1--1\n11--1--11111--1--11',
+             '-1----111-111----1-\n-11---111-111---11-\n--11---11111---11--\n---11---111---11---\n1---11---1---11---1\n11---11-----11---11\n1---11---1---11---1\n---11---111---11---\n--11---11111---11--\n-11---111-111---11-\n-1----111-111----1-',
+             '11111---------11111\n111111-------111111\n-111111-----111111-\n--11111-----11111--\n-------------------\n-------------------\n-111-1-1-1-1-1-111-\n---1-1-1-1-1-1-1---\n---11-1-1-1-1-11---\n----11111111111----\n---------1---------',
+             '1111111111111111111\n1-----------------1\n1-111111111111111-1\n1-1-------------1-1\n1-1-1111111111--1-1\n1-1-1-----------1-1\n1-1-1111111111111-1\n1-1---------------1\n1-11111111111111111\n1------------------\n1111111111111111111',
+             '-------------------\n---1--1111111--1---\n--11-1111-1111-11--\n-111-111---111-111-\n-111-11-----11-111-\n-1-1-11-----11-1-1-\n-111-11-----11-111-\n-111-111---111-111-\n--11-1111-1111-11--\n---1--1111111--1---\n-------------------',
+             '---111111111111111-\n--11111111111111111\n--11---------------\n--11--1111111111---\n--11--11111111111--\n--11-----------11--\n--11111111111--11--\n---1111111111--11--\n---------------11--\n11111111111111111--\n-111111111111111---',
+             '---1111111111111111\n-1-11----1---1--1-1\n1--11----1---1--1-1\n1-111----1---1--1-1\n11111----1---1--1-1\n-111111111111111111\n11111----1---1--1-1\n1-111----1---1--1-1\n1--11----1---1--1-1\n-1-11----1---1--1-1\n---1111111111111111',
+             '---11-------1111---\n--1111-----111111--\n-111111---11111111-\n11-11-11---111111--\n---11-------1111---\n---11--------11----\n--1111----11111111-\n-111111---11111111-\n11111111-----11----\n-111111------11----\n--1111-------11----',
+             '1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1'];
+  var blocks = map[mapnum].split("\n");
+  blen = blocks.length;
+  bxlen = blocks[0].length;
+  for(var x=0; x<blen; x++)
+  {
+    bx = blocks[x]
+    for(var y=0; y<bxlen; y++)
+    {
+      if (bx.charAt(y) == "1")
       {
-        bx = blocks[x]
-        for(var y=0; y<bxlen; y++)
-        {
-          if (bx.charAt(y) == "1")
-          {
-            kyodai.shape.push({x:y, y:x});
-          }
-        }
+        kyodai.shape.push({x:y, y:x});
       }
-      var items = [];
-      var itemppt = kyodai.random([1, 2, 3, 4, 5, 6, 7, 8]);
-      var n = 2;
-      var num = kyodai.shape.length;
-      for (var i=0; i<5; i++)
+    }
+  }
+  var items = [];
+  var itemppt = kyodai.random([1, 2, 3, 4, 5, 6, 7, 8]);
+  var n = 2;
+  var num = kyodai.shape.length;
+  for (var i=0; i<5; i++)
+  {
+    if (items.length==8) n=1;
+    if (items.length==10) break;
+    for (var j=Math.floor(Math.random()*n)*2+2; j>0; j--)
+    {
+      items.push(itemppt[i]);
+    }
+  }
+  for (n=9; n<42; n++)
+  {
+    if (num-items.length < 3)
+    {
+      if (num == items.length) break;
+      else
       {
-        if (items.length==8) n=1;
-        if (items.length==10) break;
-        for (var j=Math.floor(Math.random()*n)*2+2; j>0; j--)
-        {
-          items.push(itemppt[i]);
-        }
+        items.push(n);
+        items.push(n);
+        break;
       }
-      for (n=9; n<42; n++)
-      {
-        if (num-items.length < 3)
-        {
-          if (num == items.length) break;
-          else
-          {
-            items.push(n);
-            items.push(n);
-            break;
-          }
-        }
-        items.push(n);
-        items.push(n);
-        items.push(n);
-        items.push(n);
-      }
-      $("#kyodai_remain").html('Remain : ' + num);
-      kyodai.remain = num;
-      kyodai.setting(items);
-      kyodai.count();
-  
+    }
+    items.push(n);
+    items.push(n);
+    items.push(n);
+    items.push(n);
+  }
+  $("#kyodai_remain").html('Remain : ' + num);
+  kyodai.remain = num;
+  kyodai.setting(items);
+  kyodai.count();
+}
+
+/**
+ * preload the pics of blocks
+ */ 
+kyodai.preload = function()
+{
+  var itemImg = []
+  for (i=0; i<42; i++)
+  {
+    itemImg.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/wow/'+ i + '.png" style="position:absolute;left:1000px;top:1000px;">');
+  }
+  $("#kyodai_preload").html(itemImg.join(""));
 }
 
 /**
@@ -327,7 +351,7 @@ kyodai.setting = function(arr)
   }
   $("#kyodai_items").html(itemImg.join(""));
   $(".block_item").click(function() {
-	kyodai.click($(this).position().left, $(this).position().top);
+    kyodai.click($(this).position().left, $(this).position().top);
 	});
 }
 
@@ -448,7 +472,7 @@ kyodai.count = function()
     if (counts < 2)
     {
       // Times up
-      kyodai.over('timeover')
+      kyodai.over('timeover');
     }
   }
   , 80)
@@ -459,12 +483,12 @@ kyodai.count = function()
  */
 kyodai.random = function(arr)
 {
-  var rnd = []
+  var rnd = [];
   while (arr.length)
   {
     rnd=rnd.splice(0,Math.floor(Math.random()*(rnd.length+1))).concat(arr.splice(Math.floor(Math.random()*arr.length),1),rnd)
   }
-  return rnd
+  return rnd;
 }
 
 /**
@@ -489,8 +513,8 @@ kyodai.add = function(id)
  */
 kyodai.use = function(id)
 {
-  kyodai.sound(4)
-  kyodai.cancel()
+  kyodai.sound(4);
+  kyodai.cancel();
   if (--kyodai.pptnum[id])
   {
     $("#kyodai_ppt_"+id+"_num").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_num_"+ ++kyodai.pptnum[id] +".gif");
@@ -503,13 +527,13 @@ kyodai.use = function(id)
   switch (id)
   {
     // suggest
-    case 1 : kyodai.cue(false)
+    case 1 : kyodai.cue(false);
     break
     // reset
-    case 2 : kyodai.reset()
+    case 2 : kyodai.reset();
     break
     // bomb
-    case 3 : kyodai.cue(true)
+    case 3 : kyodai.cue(true);
   }
 }
 
@@ -518,22 +542,22 @@ kyodai.use = function(id)
  */
 kyodai.cue = function(isbomb)
 {
-  var s = kyodai.shape
-  var n = kyodai.pptnum[1]
+  var s = kyodai.shape;
+  var n = kyodai.pptnum[1];
   for (var i=0; i<s.length; i++)
   {
-    n = kyodai.block[s[i].x+","+s[i].y]
+    n = kyodai.block[s[i].x+","+s[i].y];
     if (n)
     {
       for (var j=i+1; j<s.length; j++)
       {
         if (n == kyodai.block[s[j].x+","+s[j].y])
         {
-          var sx = s[i].x
-          var sy = s[i].y
-          var ex = s[j].x
-          var ey = s[j].y
-          var line = kyodai.find(sx, sy, ex, ey)
+          var sx = s[i].x;
+          var sy = s[i].y;
+          var ex = s[j].x;
+          var ey = s[j].y;
+          var line = kyodai.find(sx, sy, ex, ey);
           if (line)
           {
             $("#kyodai_cuechoose").html('<img src = "http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" onmouseup="kyodai.click('+sx+','+sy+')" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
@@ -542,9 +566,9 @@ kyodai.cue = function(isbomb)
             if (isbomb)
             {
               $("#kyodai_cuechoose").text("");
-              kyodai.block[sx+","+sy] = 0
-              kyodai.block[ex+","+ey] = 0
-              kyodai.del(sx, sy, ex, ey)
+              kyodai.block[sx+","+sy] = 0;
+              kyodai.block[ex+","+ey] = 0;
+              kyodai.del(sx, sy, ex, ey);
             }
             return
           }
@@ -559,12 +583,12 @@ kyodai.cue = function(isbomb)
  */
 kyodai.reset = function()
 {
-  var blocks = []
+  var blocks = [];
   for (var i in kyodai.block)
   {
-    blocks.push(kyodai.block[i])
+    blocks.push(kyodai.block[i]);
   }
-  kyodai.setting(blocks)
+  kyodai.setting(blocks);
 }
 
 /**
@@ -587,15 +611,15 @@ kyodai.sound = function(id)
  */
 kyodai.over = function(type)
 {
-  kyodai.cancel()
-  clearInterval(kyodai.timeid)
+  kyodai.cancel();
+  clearInterval(kyodai.timeid);
   $("#kyodai_count img").width(0);
   $("#kyodai_center").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/" + type + ".gif");
   $("#kyodai_center").css("display","");
   $("#kyodai_items").html("");
   $("#kyodai_ppt_num").html("");
   $("#kyodai_ppt").html('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt.gif">');
-  document.onkeydown = null
+  document.onkeydown = null;
 }
 
 /**
@@ -620,10 +644,8 @@ kyodai.start = function()
   // shortcuts
   document.onkeydown = function()
   {
-    if (event.keyCode==49 && kyodai.pptnum[1]) kyodai.use(1)
-    if (event.keyCode==50 && kyodai.pptnum[2]) kyodai.use(2)
+    if (event.keyCode==49 && kyodai.pptnum[1]) kyodai.use(1);
+    if (event.keyCode==50 && kyodai.pptnum[2]) kyodai.use(2);
   };
-  //kyodai.loadmap("http://dw-kyodai.googlecode.com/svn/trunk/map/"+ Math.floor(Math.random()*kyodai.mapLength) +".txt")
-	//kyodai.loadmap("http://dw-kyodai.googlecode.com/svn/trunk/map/1.html")
-kyodai.loadmap("http://www.baidu.com/");
+  kyodai.loadmap(Math.floor(Math.random()*kyodai.mapLength));
 }
