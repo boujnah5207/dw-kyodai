@@ -255,7 +255,7 @@ kyodai.loadmap = function(txturl)
   kyodai.block = {};
   kyodai.shape = [];
   $.ajax({
-    type: "GET",
+    type: "POST",
           url: txturl,
     cache:false,
           dataType: "text",
