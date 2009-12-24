@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <Module>
-  <ModulePrefs title="DW Kyodai" width="1024" height="800">
-   <Require feature="rpc"/>
-  </ModulePrefs>
+ <ModulePrefs author="Hyram Duke" author_email="hyramduke@gmail.com" description="My first gadget" thumbnail="http://www.labpixies.com/campaigns/flood/images/thumb120x60.png" screenshot="http://www.labpixies.com/campaigns/flood/images/screenshot_orkut.png" title_url="" title="DW Kyodai" height="220">
+  <Require feature="rpc"/>
+  <Require feature="dynamic-height"/> 
+  <Require feature="setprefs"/>
+  <Require feature="views"/>
+  <Require feature="analytics"/>
+ </ModulePrefs>
 
 
   <Content type="html">
