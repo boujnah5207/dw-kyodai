@@ -62,4 +62,12 @@
 		</div>
   ]]> 
   </Content>
+  
+    <Content type="html" view="home">
+  <![CDATA[ 
+    <div>my first gadget!!!
+     
+	</div>
+  ]]> 
+  </Content>
 </Module>
