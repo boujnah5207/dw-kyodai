@@ -6,6 +6,7 @@
   <Require feature="setprefs"/>
   <Require feature="views"/>
   <Require feature="analytics"/>
+  <Require feature="opensocial-0.8" />
  </ModulePrefs>
 
 
