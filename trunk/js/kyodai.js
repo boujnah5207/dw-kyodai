@@ -257,7 +257,7 @@ kyodai.loadmap = function(txturl)
     url: txturl,
 	type: 'GET',
     error:function(data){
-		alert(data);
+		alert(""+data);
 		alert("Can't create the map : " + txturl);
     },
           success: function(data){
