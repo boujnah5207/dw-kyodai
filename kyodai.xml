@@ -29,10 +29,6 @@
 	    $("#kyodai_ppt_2_num").click(function() {
 		    kyodai.use(2);
 	    });
-		$(".block_item").click(function() {
-			alert(this.offset().left+ "  " +this.offset().top);
-		    kyodai.click(this.offset().left, this.offset().top);
-	    });
     });
     </script>
 
