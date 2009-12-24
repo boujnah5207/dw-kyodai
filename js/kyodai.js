@@ -245,7 +245,6 @@ kyodai.find = function(sx,sy,ex,ey)
   return false
 }
 
-
 /**
  * load the game map
  * @param {string} txturl The url of the game map.
@@ -259,7 +258,7 @@ kyodai.loadmap = function(txturl)
 	type: 'GET',
     dataType: "text",
     error:function(){
-              alert("Can't create the map : " + txturl);
+		alert("Can't create the map : " + txturl);
     },
           success: function(data){
       var blocks = data.split("\n");
@@ -628,5 +627,5 @@ kyodai.start = function()
     if (event.keyCode==49 && kyodai.pptnum[1]) kyodai.use(1)
     if (event.keyCode==50 && kyodai.pptnum[2]) kyodai.use(2)
   };
-  kyodai.loadmap("map/"+ Math.floor(Math.random()*kyodai.mapLength) +".txt")
+  kyodai.loadmap("http://dw-kyodai.googlecode.com/svn/trunk/map/"+ Math.floor(Math.random()*kyodai.mapLength) +".txt")
 }
