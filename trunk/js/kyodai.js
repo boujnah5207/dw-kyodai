@@ -358,7 +358,7 @@ kyodai.cancel = function()
 kyodai.click = function(event)
 {
   $("#kyodai_lines").html("");
-  var ex = Math.floor((event.pageX-50) / 35)
+  var ex = Math.floor((event.pageX) / 35)
   var ey = Math.floor((event.pageY) / 35)
   if (!kyodai.block[ex+","+ey]) return
   kyodai.sound(2)
