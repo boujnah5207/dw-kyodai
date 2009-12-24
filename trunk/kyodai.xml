@@ -5,8 +5,6 @@
   <Require feature="dynamic-height"/> 
   <Require feature="setprefs"/>
   <Require feature="views"/>
-  <Require feature="analytics"/>
-  <Require feature="opensocial-0.8" />
  </ModulePrefs>
 
 
@@ -17,6 +15,8 @@
     <link href="http://dw-kyodai.googlecode.com/svn/trunk/css/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript">
     $(document).ready(function(){
+			kyodai.preload();
+			
 	    $("#kyodai_map").click(function(event) {
 		    kyodai.click(event);
 	    });
@@ -45,6 +45,7 @@
 					<div id="kyodai_map">
 						<div id="kyodai_lines" style="position:absolute"></div>
 						<div id="kyodai_items" style="position:absolute"></div>
+						<div id="kyodai_preload" style="position:absolute"></div>
 						<img id="kyodai_choose" src="http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" style="position:absolute;left:-999px;z-index:999"/>
 						<div id="kyodai_cuechoose" style="position:absolute;z-index:999"></div>
 					</div>
