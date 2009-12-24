@@ -256,8 +256,8 @@ kyodai.loadmap = function(txturl)
   $.ajax({
     url: txturl,
 	type: 'GET',
-    error:function(){
-		alert(this);
+    error:function(data){
+		alert(data);
 		alert("Can't create the map : " + txturl);
     },
           success: function(data){
