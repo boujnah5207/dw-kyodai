@@ -262,6 +262,7 @@ kyodai.loadmap = function(txturl)
 		alert("Can't create the map : " + txturl);
     },
           success: function(data){
+			  alert($("body",data));
       var blocks = data.split("\n");
       blen = blocks.length;
       bxlen = blocks[0].length;
@@ -628,5 +629,7 @@ kyodai.start = function()
     if (event.keyCode==49 && kyodai.pptnum[1]) kyodai.use(1)
     if (event.keyCode==50 && kyodai.pptnum[2]) kyodai.use(2)
   };
-  kyodai.loadmap("http://dw-kyodai.googlecode.com/svn/trunk/map/"+ Math.floor(Math.random()*kyodai.mapLength) +".txt")
+  //kyodai.loadmap("http://dw-kyodai.googlecode.com/svn/trunk/map/"+ Math.floor(Math.random()*kyodai.mapLength) +".txt")
+	//kyodai.loadmap("http://dw-kyodai.googlecode.com/svn/trunk/map/1.html")
+kyodai.loadmap("http://www.baidu.com");
 }
