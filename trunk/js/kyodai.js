@@ -256,6 +256,7 @@ kyodai.loadmap = function(txturl)
   $.ajax({
     url: txturl,
 	type: 'GET',
+datatype: 'html',
     error:function(data,text,error){
 		alert(""+text);
 		alert(""+error);
@@ -631,5 +632,5 @@ kyodai.start = function()
   };
   //kyodai.loadmap("http://dw-kyodai.googlecode.com/svn/trunk/map/"+ Math.floor(Math.random()*kyodai.mapLength) +".txt")
 	//kyodai.loadmap("http://dw-kyodai.googlecode.com/svn/trunk/map/1.html")
-kyodai.loadmap("http://www.baidu.com");
+kyodai.loadmap("http://www.baidu.com/");
 }
