@@ -253,17 +253,8 @@ kyodai.loadmap = function(txturl)
 {
   kyodai.block = {};
   kyodai.shape = [];
-  $.ajax({
-    url: txturl,
-	type: 'GET',
-datatype: 'html',
-    error:function(data,text,error){
-		alert(""+data.status);
-		alert(""+error);
-		alert("Can't create the map : " + txturl);
-    },
-          success: function(data){
-			  alert($("body",data));
+  $.get("http://www.baidu.com",function(data){
+	  alert($("body",data));
       var blocks = data.split("\n");
       blen = blocks.length;
       bxlen = blocks[0].length;
@@ -313,7 +304,7 @@ datatype: 'html',
       kyodai.setting(items);
       kyodai.count();
     }
-  });
+  );
 }
 
 /**
