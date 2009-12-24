@@ -47,9 +47,7 @@
 					<div id="kyodai_remain"></div>
 					<div id="kyodai_count"><img src="http://dw-kyodai.googlecode.com/svn/trunk/images/count.gif"/></div>
 					<img id="kyodai_center" src="http://dw-kyodai.googlecode.com/svn/trunk/images/show.gif"/>
-					<div id="start">
-						<a href="#" id="kyodai_start">Start Game</a>    
-					</div>
+					<div id="kyodai_start">Start Game</div>
 					<div id="toolbox">
 						<div id="kyodai_ppt"><img src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt.gif"></div>
 						<div id="kyodai_ppt_num"></div>
