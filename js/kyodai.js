@@ -249,13 +249,12 @@ kyodai.find = function(sx,sy,ex,ey)
  * load the game map
  * @param {string} txturl The url of the game map.
  */  
-kyodai.loadmap = function(txturl)
+kyodai.loadmap = function(mapnum)
 {
   kyodai.block = {};
   kyodai.shape = [];
-  $.get("http://www.baidu.com",function(data){
-	  alert($("body",data));
-      var blocks = data.split("\n");
+  var map = ['1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1']
+      var blocks = map[0].split("\n");
       blen = blocks.length;
       bxlen = blocks[0].length;
       for(var x=0; x<blen; x++)
@@ -304,7 +303,7 @@ kyodai.loadmap = function(txturl)
       kyodai.setting(items);
       kyodai.count();
     }
-  );
+  
 }
 
 /**
