@@ -303,7 +303,6 @@ kyodai.loadmap = function(mapnum)
       kyodai.remain = num;
       kyodai.setting(items);
       kyodai.count();
-    }
   
 }
 
