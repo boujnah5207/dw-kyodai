@@ -326,6 +326,9 @@ kyodai.setting = function(arr)
     }
   }
   $("#kyodai_items").html(itemImg.join(""));
+  $(".block_item").click(function() {
+	kyodai.click($(this).position().left, $(this).position().top);
+	});
 }
 
 /**
