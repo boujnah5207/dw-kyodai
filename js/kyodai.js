@@ -322,7 +322,7 @@ kyodai.setting = function(arr)
     kyodai.block[x+","+y] = Img
     if (Img)
     {
-      itemImg.push('<img id=Item_'+x+'_'+y+' src="http://dw-kyodai.googlecode.com/svn/trunk/images/wow/'+ Img + '.png" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">')
+      itemImg.push('<img id=Item_'+x+'_'+y+' class ="block_item" src="http://dw-kyodai.googlecode.com/svn/trunk/images/wow/'+ Img + '.png" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">')
     }
   }
   $("#kyodai_items").html(itemImg.join(""));
@@ -355,11 +355,11 @@ kyodai.cancel = function()
  * mouse click
  * @param {event} event mouse click event.
  */ 
-kyodai.click = function(event)
+kyodai.click = function(x,y)
 {
   $("#kyodai_lines").html("");
-  var ex = Math.floor((event.pageX) / 35)
-  var ey = Math.floor((event.pageY) / 35)
+  var ex = Math.floor(x / 35)
+  var ey = Math.floor(y / 35)
   if (!kyodai.block[ex+","+ey]) return
   kyodai.sound(2)
   if (!kyodai.point)
