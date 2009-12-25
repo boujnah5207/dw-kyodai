@@ -41,7 +41,7 @@
 						<embed src="http://dw-kyodai.googlecode.com/svn/trunk/sound/SE.swf" width="285" height="200" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
 					</object>
 				
-					<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/bg.png" style="position:absolute"/>
+					<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/game.png" style="position:absolute"/>
 					<div id="kyodai_map">
 						<div id="kyodai_lines" style="position:absolute"></div>
 						<div id="kyodai_items" style="position:absolute"></div>
