@@ -86,12 +86,12 @@ kyodai.linex = function(x1, x2, y)
   if (x1 < x2)
   {
     while (x1++ < x2)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.gif" style="position:absolute;left:'+(x1*35-18)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:'+(x1*35-18)+'px;top:'+y*35+'px"/>')
   }
   else
   {
     while (x2++ < x1)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.gif" style="position:absolute;left:'+(x2*35-18)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:'+(x2*35-18)+'px;top:'+y*35+'px"/>')
   }
   return path
 }
@@ -109,12 +109,12 @@ kyodai.liney = function(y1, y2, x)
   if (y1 < y2)
   {
     while (y1++ < y2)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.gif" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-18)+'px"/>')
+    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-18)+'px"/>')
   }
   else
   {
     while (y2++ < y1)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.gif" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-18)+'px"/>')
+    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-18)+'px"/>')
   }
   return path
 }
@@ -384,7 +384,6 @@ kyodai.cancel = function()
  */ 
 kyodai.click = function(x,y)
 {
-  $("#kyodai_lines").html("");
   var ex = Math.floor(x / 35)
   var ey = Math.floor(y / 35)
   if (!kyodai.block[ex+","+ey]) return
@@ -416,7 +415,7 @@ kyodai.click = function(x,y)
   kyodai.cancel()
   kyodai.block[s] = 0
   kyodai.block[e] = 0
-  var line = kyodai.find(sx, sy, ex, ey)
+  var line = kyodai.find(sx, sy, ex, ey);
   if (!line)
   {
     // can't connect
@@ -426,7 +425,10 @@ kyodai.click = function(x,y)
   }
   if (ee < 4) kyodai.add(ee)
   $("#kyodai_lines").html(line.join(""));
-  kyodai.del(sx, sy, ex, ey)
+  $("#kyodai_lines img").hide();
+  $("#kyodai_lines img").fadeIn("400");
+  $("#kyodai_lines img").fadeOut("400");
+  kyodai.del(sx, sy, ex, ey);
 }
 
 /**
@@ -438,10 +440,10 @@ kyodai.del = function(sx,sy,ex,ey)
   kyodai.count();
   kyodai.remain -= 2;
   $("#kyodai_remain").html('Remain : ' + kyodai.remain);
-  $("#Item_"+sx+"_"+sy).hide("fast");
-  $("#Item_"+ex+"_"+ey).hide("fast");
+  $("#Item_"+sx+"_"+sy).hide("normal");
+  $("#Item_"+ex+"_"+ey).hide("normal");
   // win
-  if (!kyodai.remain) setTimeout("kyodai.over('win')",600)
+  if (!kyodai.remain) setTimeout("kyodai.over('win')",600);
 }
 
 /**
@@ -560,9 +562,11 @@ kyodai.cue = function(isbomb)
           var line = kyodai.find(sx, sy, ex, ey);
           if (line)
           {
-            $("#kyodai_cuechoose").html('<img src = "http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" onmouseup="kyodai.click('+sx+','+sy+')" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
-            + '<img src = "http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" onmouseup="kyodai.click('+ex+','+ey+')" style="position:absolute;left:'+ (ex*35) +'px;top:'+ ey*35 +'px">');
+            $("#kyodai_cuechoose").html('<img src = "http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
+            + '<img src = "http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" style="position:absolute;left:'+ (ex*35) +'px;top:'+ ey*35 +'px">');
             $("#kyodai_lines").html(line.join(""));
+            $("#kyodai_lines img").fadeOut("slow");
+            $("#kyodai_cuechoose img").fadeOut("slow");
             if (isbomb)
             {
               $("#kyodai_cuechoose").text("");
