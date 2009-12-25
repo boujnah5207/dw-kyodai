@@ -86,12 +86,12 @@ kyodai.linex = function(x1, x2, y)
   if (x1 < x2)
   {
     while (x1++ < x2)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:'+(x1*35-18)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:'+(x1*35-17)+'px;top:'+y*35+'px"/>')
   }
   else
   {
     while (x2++ < x1)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:'+(x2*35-18)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:'+(x2*35-17)+'px;top:'+y*35+'px"/>')
   }
   return path
 }
@@ -109,12 +109,12 @@ kyodai.liney = function(y1, y2, x)
   if (y1 < y2)
   {
     while (y1++ < y2)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-18)+'px"/>')
+    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-17)+'px"/>')
   }
   else
   {
     while (y2++ < y1)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-18)+'px"/>')
+    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-17)+'px"/>')
   }
   return path
 }
