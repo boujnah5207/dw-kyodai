@@ -41,21 +41,21 @@
 						<embed src="http://dw-kyodai.googlecode.com/svn/trunk/sound/SE.swf" width="285" height="200" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
 					</object>
 				
-					<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/game.png" style="position:absolute"/>
+					<img id="kyodai_game" src="" style="position:absolute"/>
 					<div id="kyodai_map">
 						<div id="kyodai_lines" style="position:absolute"></div>
 						<div id="kyodai_items" style="position:absolute"></div>
 						<div id="kyodai_preload" style="position:absolute"></div>
-						<img id="kyodai_choose" src="http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" style="position:absolute;left:-999px;z-index:999"/>
+						<img id="kyodai_choose" src="" style="position:absolute;left:-999px;z-index:999"/>
 						<div id="kyodai_cuechoose" style="position:absolute;z-index:999"></div>
 					</div>
 					
 					<div id="kyodai_remain"></div>
-					<div id="kyodai_count"><img src="http://dw-kyodai.googlecode.com/svn/trunk/images/count.gif"/></div>
-					<img id="kyodai_center" src="http://dw-kyodai.googlecode.com/svn/trunk/images/show.gif"/>
+					<div id="kyodai_count"><img src=""/></div>
+					<img id="kyodai_center" src=""/>
 					<div id="kyodai_start">Start Game</div>
 					<div id="toolbox">
-						<div id="kyodai_ppt"><img src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt.gif"></div>
+						<div id="kyodai_ppt"><img src=""></div>
 						<div id="kyodai_ppt_num"></div>
 					</div>
 				</div>

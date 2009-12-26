@@ -10,6 +10,10 @@
 // Namespace assigned to this library of kyodai-related classes
 var kyodai = {mapX:19, mapY:11, mapLength:14};
 
+kyodai.hosturl = 'http://dw-kyodai.googlecode.com/svn/trunk/';
+//kyodai.hosturl = '';
+kyodai.scene = 'tooth';
+
 /**
  * draw the cross from a point in the map
  * @param {Number} x The x coordinate of the point.
@@ -86,12 +90,12 @@ kyodai.linex = function(x1, x2, y)
   if (x1 < x2)
   {
     while (x1++ < x2)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:'+(x1*35-17)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="'+kyodai.hosturl+'images/linex.png" style="position:absolute;left:'+(x1*35-17)+'px;top:'+y*35+'px"/>')
   }
   else
   {
     while (x2++ < x1)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:'+(x2*35-17)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="'+kyodai.hosturl+'images/linex.png" style="position:absolute;left:'+(x2*35-17)+'px;top:'+y*35+'px"/>')
   }
   return path
 }
@@ -109,12 +113,12 @@ kyodai.liney = function(y1, y2, x)
   if (y1 < y2)
   {
     while (y1++ < y2)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-17)+'px"/>')
+    path.push('<img src="'+kyodai.hosturl+'images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-17)+'px"/>')
   }
   else
   {
     while (y2++ < y1)
-    path.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-17)+'px"/>')
+    path.push('<img src="'+kyodai.hosturl+'images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-17)+'px"/>')
   }
   return path
 }
@@ -285,15 +289,16 @@ kyodai.loadmap = function(mapnum)
   var itemppt = kyodai.random([1, 2, 3, 4, 5, 6, 7, 8]);
   var n = 2;
   var num = kyodai.shape.length;
-  for (var i=0; i<5; i++)
+  for (var i=0; i<8; i++)
   {
-    if (items.length==8) n=1;
-    if (items.length==10) break;
+    if (items.length==28) n=1;
+    if (items.length==30) break;
     for (var j=Math.floor(Math.random()*n)*2+2; j>0; j--)
     {
       items.push(itemppt[i]);
     }
   }
+  
   for (n=9; n<42; n++)
   {
     if (num-items.length < 3)
@@ -322,12 +327,18 @@ kyodai.loadmap = function(mapnum)
  */ 
 kyodai.preload = function()
 {
+  $("#kyodai_game").attr('src', kyodai.hosturl + 'images/game1.jpg');
+  $("#kyodai_choose").attr('src',kyodai.hosturl + 'images/choose.gif');
+  $("#kyodai_count img").attr('src',kyodai.hosturl + 'images/count.gif');
+  $("#kyodai_center").attr('src',kyodai.hosturl + 'images/show.gif');
+  $("#kyodai_ppt img").attr('src',kyodai.hosturl + 'images/ppt.gif');
+  
   var itemImg = []
   for (i=0; i<42; i++)
   {
-    itemImg.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/wow/'+ i + '.png" style="position:absolute;left:1000px;top:1000px;">');
-    itemImg.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/linex.png" style="position:absolute;left:1000px;top:1000px;">')
-    itemImg.push('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/liney.png" style="position:absolute;left:1000px;top:1000px;">')
+    itemImg.push('<img src="'+kyodai.hosturl+'images/'+kyodai.scene+'/'+ i + '.png" style="position:absolute;left:1000px;top:1000px;">');
+    itemImg.push('<img src="'+kyodai.hosturl+'images/linex.png" style="position:absolute;left:1000px;top:1000px;">')
+    itemImg.push('<img src="'+kyodai.hosturl+'images/liney.png" style="position:absolute;left:1000px;top:1000px;">')
   }
   $("#kyodai_preload").html(itemImg.join(""));
 }
@@ -348,7 +359,7 @@ kyodai.setting = function(arr)
     kyodai.block[x+","+y] = Img
     if (Img)
     {
-      itemImg.push('<img id=Item_'+x+'_'+y+' class ="block_item" src="http://dw-kyodai.googlecode.com/svn/trunk/images/wow/'+ Img + '.png" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">')
+      itemImg.push('<img id=Item_'+x+'_'+y+' class ="block_item" src="'+kyodai.hosturl+'images/'+kyodai.scene+'/'+ Img + '.png" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">')
     }
   }
   $("#kyodai_items").html(itemImg.join(""));
@@ -454,7 +465,7 @@ kyodai.del = function(sx,sy,ex,ey)
 kyodai.count = function()
 {
   clearInterval(kyodai.timeid);
-  $("#kyodai_count img").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/count1.gif");
+  $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count1.gif");
   $("#kyodai_count img").width(328);
   kyodai.timeid = setInterval(function()
   {
@@ -463,15 +474,15 @@ kyodai.count = function()
     switch (counts)
     {
       // timing bar
-      case 270 : $("#kyodai_count img").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/count2.gif");
+      case 270 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count2.gif");
       break;
-      case 180 : $("#kyodai_count img").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/count3.gif");
+      case 180 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count3.gif");
       break;
-      case 100 : $("#kyodai_count img").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/count4.gif");
+      case 100 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count4.gif");
       break;
-      case  65 : $("#kyodai_count img").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/count5.gif");
+      case  65 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count5.gif");
       break;
-      case  30 : $("#kyodai_count img").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/count6.gif");
+      case  30 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count6.gif");
     }
     if (counts < 2)
     {
@@ -502,13 +513,13 @@ kyodai.add = function(id)
 {
   if (kyodai.pptnum[id])
   {
-    $("#kyodai_ppt_"+id+"_num").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_num_"+ ++kyodai.pptnum[id] +".gif");
+    $("#kyodai_ppt_"+id+"_num").attr("src",kyodai.hosturl+"images/ppt_num_"+ ++kyodai.pptnum[id] +".gif");
   }
   else
   {
     kyodai.pptnum[id] = 1
-    $("#kyodai_ppt").append('<img id=kyodai_ppt_'+id+' src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_'+id+'.gif">');
-    $("#kyodai_ppt_num").append('<img id=kyodai_ppt_'+id+'_num src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_num_1.gif" onclick="kyodai.use('+id+')">');
+    $("#kyodai_ppt").append('<img id=kyodai_ppt_'+id+' src="'+kyodai.hosturl+'images/ppt_'+id+'.gif">');
+    $("#kyodai_ppt_num").append('<img id=kyodai_ppt_'+id+'_num src="'+kyodai.hosturl+'images/ppt_num_1.gif" onclick="kyodai.use('+id+')">');
   }
 }
 
@@ -521,7 +532,7 @@ kyodai.use = function(id)
   kyodai.cancel();
   if (--kyodai.pptnum[id])
   {
-    $("#kyodai_ppt_"+id+"_num").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_num_"+ ++kyodai.pptnum[id] +".gif");
+    $("#kyodai_ppt_"+id+"_num").attr("src",kyodai.hosturl+"images/ppt_num_"+ ++kyodai.pptnum[id] +".gif");
   }
   else
   {
@@ -564,8 +575,8 @@ kyodai.cue = function(isbomb)
           var line = kyodai.find(sx, sy, ex, ey);
           if (line)
           {
-            $("#kyodai_cuechoose").html('<img src = "http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
-            + '<img src = "http://dw-kyodai.googlecode.com/svn/trunk/images/choose.gif" style="position:absolute;left:'+ (ex*35) +'px;top:'+ ey*35 +'px">');
+            $("#kyodai_cuechoose").html('<img src = "'+kyodai.hosturl+'images/choose.gif" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
+            + '<img src = "'+kyodai.hosturl+'images/choose.gif" style="position:absolute;left:'+ (ex*35) +'px;top:'+ ey*35 +'px">');
             $("#kyodai_lines").html(line.join(""));
             $("#kyodai_lines img").fadeOut("slow");
             $("#kyodai_cuechoose img").fadeOut("slow");
@@ -620,11 +631,11 @@ kyodai.over = function(type)
   kyodai.cancel();
   clearInterval(kyodai.timeid);
   $("#kyodai_count img").width(0);
-  $("#kyodai_center").attr("src","http://dw-kyodai.googlecode.com/svn/trunk/images/" + type + ".gif");
+  $("#kyodai_center").attr("src",kyodai.hosturl+"images/" + type + ".gif");
   $("#kyodai_center").css("display","");
   $("#kyodai_items").html("");
   $("#kyodai_ppt_num").html("");
-  $("#kyodai_ppt").html('<img src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt.gif">');
+  $("#kyodai_ppt").html('<img src="'+kyodai.hosturl+'images/ppt.gif">');
   document.onkeydown = null;
 }
 
@@ -638,8 +649,8 @@ kyodai.start = function()
   kyodai.cancel();
   kyodai.pptnum = {1:3, 2:3};
   // Tools images
-  $("#kyodai_ppt").html('<img id=kyodai_ppt_1 src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_1.gif">'+'<img id=kyodai_ppt_2 src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_2.gif">');
-  $("#kyodai_ppt_num").html('<img id=kyodai_ppt_1_num src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_num_3.gif">'+'<img id=kyodai_ppt_2_num src="http://dw-kyodai.googlecode.com/svn/trunk/images/ppt_num_3.gif">');
+  $("#kyodai_ppt").html('<img id=kyodai_ppt_1 src="'+kyodai.hosturl+'images/ppt_1.gif">'+'<img id=kyodai_ppt_2 src="'+kyodai.hosturl+'images/ppt_2.gif">');
+  $("#kyodai_ppt_num").html('<img id=kyodai_ppt_1_num src="'+kyodai.hosturl+'images/ppt_num_3.gif">'+'<img id=kyodai_ppt_2_num src="'+kyodai.hosturl+'images/ppt_num_3.gif">');
     
   $("#kyodai_ppt_1_num").click(function() {
     kyodai.use(1);
