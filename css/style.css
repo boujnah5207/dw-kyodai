@@ -4,11 +4,11 @@ body { margin:0; font:12px Tahoma;}
 #kyodai_background{background:url(../images/game.png);}
 #kyodai_scene{ position:relative; width:700px; left:0px; cursor: pointer;}
 #kyodai_map{ left:10px; top:5px; position:absolute;}
-#kyodai_ppt,#kyodai_ppt_num{position:absolute;left:10px;}
+#kyodai_ppt,#kyodai_ppt_num{position:absolute;left:2px;}
 #kyodai_center{position:absolute;left:240px;top:20px}
 #kyodai_remain{font-weight:bold; color:#fefe00; position:absolute;top:410px;right:200px}
-#kyodai_count img{width:330px;height:13px;float:right;}
-#kyodai_count{position:absolute;width:330px;height:13px;top:410px;background:url(../images/cloudy_bg.jpg);border:1px solid #447ff7;}
-#kyodai_start{ background:url(../images/button_bg2.gif) no-repeat; width:100px; height:25px; position:absolute;top:455px;right:0px;font-size:13px; text-align: center; color:white; text-decoration:none; line-height:25px; cursor: pointer;}
-#kyodai_start:hover { background-position:0 bottom;  }
-#toolbox { background:url(../images/cloudy_bg.jpg); border:1px solid #447ff7; width:200px; height:20px; position:absolute;top:440px;padding:10px; }
+#kyodai_count img{width:330px;height:8px;float:right;margin-top:1px;margin-right:5px;}
+#kyodai_count{position:absolute;width:340px;height:11px;top:410px;background:url(../images/timebar.png);}
+#kyodai_start{ background:url(../images/start_btn.png) no-repeat; width:87px; height:30px; position:absolute;top:430px;right:0px;font-size:12px; font-weight: bold;text-align: center; color:#FFFFFF; text-decoration:none; line-height:25px; cursor: pointer;}
+#kyodai_start:hover { background:url(../images/start_btn_hover.png) no-repeat;  }
+#toolbox { background:url(../images/toolbar.png); width:200px; height:37px; position:absolute;top:430px; }
