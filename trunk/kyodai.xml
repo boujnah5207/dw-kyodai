@@ -66,9 +66,53 @@
   
     <Content type="html" view="home">
   <![CDATA[ 
-    <div>my first gadget!!!
-     
-	</div>
+    <title>DW Kyodai</title>
+    <style type="text/css">
+      body {
+        text-align:center;
+        font-family:arial;
+      }
+      
+      #main {
+        width:246px;
+        height:151px;
+        cursor:pointer;
+      }
+    </style>
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      var $dw = jQuery.noConflict();
+      
+      var IMAGES_BASE = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
+      //var prefs = new _IG_Prefs();
+      
+      //get's the images from the cache from the 'images' directory
+      function getCachedImage(src) {
+        //return IMAGES_BASE+src;
+        return _IG_GetImageUrl(IMAGES_BASE+src);
+      }
+            
+      function switchToCanvas( params ) {
+      	map = gadgets.views.getSupportedViews();
+      	gadgets.views.requestNavigateTo( map['canvas'], params );
+      }
+      
+      function init(){ 
+        $('#main').css('background','url'+'('+getCachedImage('main.png')+') no-repeat';
+      }
+      _IG_RegisterOnloadHandler(init);
+      
+    </script>
+    
+ 
+    <div id="container" align="center">
+      <div style="height:10px;font-size:1px;"></div>
+      <div id="main" onclick="switchToCanvas();">
+        <div id="rank"></div>
+      </div>
+    </div>
   ]]> 
   </Content>
 </Module>
