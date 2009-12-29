@@ -16,11 +16,13 @@ kyodai.imageshost = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
 kyodai.scene = 'tooth';
 
 kyodai.getCachedImage =	function(src) {
-  if (kyodai.area == 'public')
+  if (kyodai.area == 'public'){
     alert("yes");
     return _IG_GetImageUrl(kyodai.imageshost+src);
-  else
-    return ('images/' + src)
+  }
+  else{
+    return ('images/' + src);
+  }
 }
 
 /**
