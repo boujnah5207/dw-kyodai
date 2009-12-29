@@ -12,3 +12,4 @@ body { margin:0; font:12px Tahoma;}
 #kyodai_start{ background:url(../images/start_btn.png) no-repeat; width:87px; height:30px; position:absolute;top:430px;right:0px;font-size:12px; font-weight: bold;text-align: center; color:#FFFFFF; text-decoration:none; line-height:25px; cursor: pointer;}
 #kyodai_start:hover { background:url(../images/start_btn_hover.png) no-repeat;  }
 #toolbox { background:url(../images/toolbar.png); width:200px; height:37px; position:absolute;top:430px; }
+.preload{position:absolute;left:1000px;top:1000px;}
