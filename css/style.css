@@ -1,4 +1,4 @@
-body { margin:0; font:12px Tahoma;} 
+body { margin:0; text-align: center; font:12px Tahoma;} 
 #everything { width:750px; height:500px;background:url(../images/bg.jpg);margin: 10px 20px;}
 #middle { clear:both;  padding:15px 20px; }
 #kyodai_background{background:url(../images/game.png);}
