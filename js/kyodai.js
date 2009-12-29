@@ -17,7 +17,6 @@ kyodai.scene = 'tooth';
 
 kyodai.getCachedImage =	function(src) {
   if (kyodai.area == 'public'){
-    alert("yes");
     return _IG_GetImageUrl(kyodai.imageshost+src);
   }
   else{
