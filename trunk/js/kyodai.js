@@ -10,9 +10,17 @@
 // Namespace assigned to this library of kyodai-related classes
 var kyodai = {mapX:19, mapY:11, mapLength:14};
 
-kyodai.hosturl = 'http://dw-kyodai.googlecode.com/svn/trunk/';
-//kyodai.hosturl = '';
+//kyodai.area = 'private';
+kyodai.area = 'public';
+kyodai.imageshost = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
 kyodai.scene = 'tooth';
+
+kyodai.getCachedImage =	function(src) {
+  if (kyodai.area == 'public')
+    return _IG_GetImageUrl(kyodai.imageshost+src);
+  else
+    return ('images/' + src)
+}
 
 /**
  * draw the cross from a point in the map
@@ -90,12 +98,12 @@ kyodai.linex = function(x1, x2, y)
   if (x1 < x2)
   {
     while (x1++ < x2)
-    path.push('<img src="'+kyodai.hosturl+'images/linex.png" style="position:absolute;left:'+(x1*35-17)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="'+kyodai.getCachedImage('linex.png')+'" style="position:absolute;left:'+(x1*35-17)+'px;top:'+y*35+'px"/>')
   }
   else
   {
     while (x2++ < x1)
-    path.push('<img src="'+kyodai.hosturl+'images/linex.png" style="position:absolute;left:'+(x2*35-17)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="'+kyodai.getCachedImage('linex.png')+'"  style="position:absolute;left:'+(x2*35-17)+'px;top:'+y*35+'px"/>')
   }
   return path
 }
@@ -113,12 +121,12 @@ kyodai.liney = function(y1, y2, x)
   if (y1 < y2)
   {
     while (y1++ < y2)
-    path.push('<img src="'+kyodai.hosturl+'images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-17)+'px"/>')
+    path.push('<img src="'+kyodai.getCachedImage('liney.png')+'" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-17)+'px"/>')
   }
   else
   {
     while (y2++ < y1)
-    path.push('<img src="'+kyodai.hosturl+'images/liney.png" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-17)+'px"/>')
+    path.push('<img src="'+kyodai.getCachedImage('liney.png')+'" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-17)+'px"/>')
   }
   return path
 }
@@ -327,19 +335,27 @@ kyodai.loadmap = function(mapnum)
  */ 
 kyodai.preload = function()
 {
-  $("#kyodai_game").attr('src', kyodai.hosturl + 'images/game1.jpg');
-  $("#kyodai_choose").attr('src',kyodai.hosturl + 'images/choose.png');
-  $("#kyodai_count img").attr('src',kyodai.hosturl + 'images/count.png');
-  $("#kyodai_center").attr('src',kyodai.hosturl + 'images/show.gif');
-  $("#kyodai_ppt img").attr('src',kyodai.hosturl + 'images/notool.png');
+  $("#kyodai_game").attr('src', kyodai.getCachedImage('game1.jpg'));
+  $("#kyodai_choose").attr('src', kyodai.getCachedImage('choose.png'));
+  $("#kyodai_count img").attr('src', kyodai.getCachedImage('count.png'));
+  $("#kyodai_center").attr('src', kyodai.getCachedImage('show.gif'));
+  $("#kyodai_ppt img").attr('src', kyodai.getCachedImage('notool.png'));
   
   var itemImg = []
   for (i=0; i<42; i++)
   {
-    itemImg.push('<img src="'+kyodai.hosturl+'images/'+kyodai.scene+'/'+ i + '.png" style="position:absolute;left:1000px;top:1000px;">');
-    itemImg.push('<img src="'+kyodai.hosturl+'images/linex.png" style="position:absolute;left:1000px;top:1000px;">')
-    itemImg.push('<img src="'+kyodai.hosturl+'images/liney.png" style="position:absolute;left:1000px;top:1000px;">')
+    itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage(kyodai.scene+'/'+ i + '.png') +'">');
+    itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('linex.png') +'">');
+    itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('liney.png') +'">');
   }
+  
+  for (i=1; i<6; i++)
+  {
+    itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('tool'+ i + '.png')+'">');
+    itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('tool_num_'+ i + '.png')+'">');
+  }
+  itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('start_btn_hover.png')+'">');
+  
   $("#kyodai_preload").html(itemImg.join(""));
 }
 
@@ -359,7 +375,7 @@ kyodai.setting = function(arr)
     kyodai.block[x+","+y] = Img
     if (Img)
     {
-      itemImg.push('<img id=Item_'+x+'_'+y+' class ="block_item" src="'+kyodai.hosturl+'images/'+kyodai.scene+'/'+ Img + '.png" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">')
+      itemImg.push('<img id=Item_'+x+'_'+y+' class ="block_item" src="'+ kyodai.getCachedImage(kyodai.scene+'/'+ Img + '.png')+'" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">')
     }
   }
   $("#kyodai_items").html(itemImg.join(""));
@@ -465,7 +481,7 @@ kyodai.del = function(sx,sy,ex,ey)
 kyodai.count = function()
 {
   clearInterval(kyodai.timeid);
-  $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count1.png");
+  $("#kyodai_count img").attr("src",kyodai.getCachedImage('count1.png'));
   $("#kyodai_count img").width(328);
   kyodai.timeid = setInterval(function()
   {
@@ -474,15 +490,15 @@ kyodai.count = function()
     switch (counts)
     {
       // timing bar
-      case 270 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count2.png");
+      case 270 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count2.png'));
       break;
-      case 180 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count3.png");
+      case 180 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count3.png'));
       break;
-      case 100 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count4.png");
+      case 100 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count4.png'));
       break;
-      case  65 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count5.png");
+      case  65 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count5.png'));
       break;
-      case  30 : $("#kyodai_count img").attr("src",kyodai.hosturl+"images/count6.png");
+      case  30 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count6.png'));
     }
     if (counts < 2)
     {
@@ -513,13 +529,13 @@ kyodai.add = function(id)
 {
   if (kyodai.pptnum[id])
   {
-    $("#kyodai_ppt_"+id+"_num").attr("src",kyodai.hosturl+"images/tool_num_"+ ++kyodai.pptnum[id] +".png");
+    $("#kyodai_ppt_"+id+"_num").attr("src",kyodai.getCachedImage('tool_num_'+ ++kyodai.pptnum[id] +'.png'));
   }
   else
   {
     kyodai.pptnum[id] = 1
-    $("#kyodai_ppt").append('<img id=kyodai_ppt_'+id+' src="'+kyodai.hosturl+'images/tool'+id+'.png">');
-    $("#kyodai_ppt_num").append('<img id=kyodai_ppt_'+id+'_num src="'+kyodai.hosturl+'images/tool_num_1.png" onclick="kyodai.use('+id+')">');
+    $("#kyodai_ppt").append('<img id=kyodai_ppt_'+id+' src="'+kyodai.getCachedImage('tool'+ id +'.png')+'">');
+    $("#kyodai_ppt_num").append('<img id=kyodai_ppt_'+id+'_num src="'+kyodai.getCachedImage('tool_num_1.png')+'" onclick="kyodai.use('+id+')">');
   }
 }
 
@@ -532,7 +548,7 @@ kyodai.use = function(id)
   kyodai.cancel();
   if (--kyodai.pptnum[id])
   {
-    $("#kyodai_ppt_"+id+"_num").attr("src",kyodai.hosturl+"images/tool_num_"+ kyodai.pptnum[id] +".png");
+    $("#kyodai_ppt_"+id+"_num").attr("src",kyodai.getCachedImage('tool_num_'+ kyodai.pptnum[id] +'.png'));
   }
   else
   {
@@ -575,8 +591,8 @@ kyodai.cue = function(isbomb)
           var line = kyodai.find(sx, sy, ex, ey);
           if (line)
           {
-            $("#kyodai_cuechoose").html('<img src = "'+kyodai.hosturl+'images/choose.png" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
-            + '<img src = "'+kyodai.hosturl+'images/choose.png" style="position:absolute;left:'+ (ex*35) +'px;top:'+ ey*35 +'px">');
+            $("#kyodai_cuechoose").html('<img src = "'+ kyodai.getCachedImage('choose.png') +'" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
+            + '<img src = "'+ kyodai.getCachedImage('choose.png') +'" style="position:absolute;left:'+ (ex*35) +'px;top:'+ ey*35 +'px">');
             $("#kyodai_lines").html(line.join(""));
             $("#kyodai_lines img").fadeOut("slow");
             $("#kyodai_cuechoose img").fadeOut("slow");
@@ -631,11 +647,11 @@ kyodai.over = function(type)
   kyodai.cancel();
   clearInterval(kyodai.timeid);
   $("#kyodai_count img").width(0);
-  $("#kyodai_center").attr("src",kyodai.hosturl+"images/" + type + ".gif");
+  $("#kyodai_center").attr("src",kyodai.getCachedImage(type + '.png'));
   $("#kyodai_center").css("display","");
   $("#kyodai_items").html("");
   $("#kyodai_ppt_num").html("");
-  $("#kyodai_ppt").html('<img src="'+kyodai.hosturl+'images/notool.png">');
+  $("#kyodai_ppt").html('<img src ="'+ kyodai.getCachedImage('notool.png') +'">');
   document.onkeydown = null;
 }
 
@@ -649,8 +665,8 @@ kyodai.start = function()
   kyodai.cancel();
   kyodai.pptnum = {1:3, 2:3};
   // Tools images
-  $("#kyodai_ppt").html('<img id=kyodai_ppt_1 src="'+kyodai.hosturl+'images/tool1.png">'+'<img id=kyodai_ppt_2 src="'+kyodai.hosturl+'images/tool2.png">');
-  $("#kyodai_ppt_num").html('<img id=kyodai_ppt_1_num src="'+kyodai.hosturl+'images/tool_num_3.png">'+'<img id=kyodai_ppt_2_num src="'+kyodai.hosturl+'images/tool_num_3.png">');
+  $("#kyodai_ppt").html('<img id=kyodai_ppt_1 src ="'+ kyodai.getCachedImage('tool1.png') +'">'+'<img id=kyodai_ppt_2 src ="'+ kyodai.getCachedImage('tool2.png') +'">');
+  $("#kyodai_ppt_num").html('<img id=kyodai_ppt_1_num src ="'+ kyodai.getCachedImage('tool_num_3.png') +'">'+'<img id=kyodai_ppt_2_num src ="'+ kyodai.getCachedImage('tool_num_3.png') +'">');
     
   $("#kyodai_ppt_1_num").click(function() {
     kyodai.use(1);
