@@ -1,5 +1,5 @@
 body { margin:0;font:12px Tahoma;} 
-#everything { width:750px; height:500px;background:url(../images/bg.jpg);margin: 30px;}
+#everything { width:750px; height:500px;background:url(../images/bg.jpg);margin: 20px 60px;}
 #middle { clear:both;  padding:15px 20px; }
 #kyodai_background{background:url(../images/game.png);}
 #kyodai_scene{ position:relative; width:700px; left:0px; cursor: pointer;}
