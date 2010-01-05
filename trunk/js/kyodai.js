@@ -339,8 +339,8 @@ kyodai.preload = function()
 {
   $("#kyodai_game").attr('src', kyodai.getCachedImage('game1.jpg'));
   $("#kyodai_choose").attr('src', kyodai.getCachedImage('choose.png'));
+  $("#kyodai_hover").attr('src', kyodai.getCachedImage('choose.png'));
   $("#kyodai_count img").attr('src', kyodai.getCachedImage('count.png'));
-  $("#kyodai_center").attr('src', kyodai.getCachedImage('show.gif'));
   $("#kyodai_ppt img").attr('src', kyodai.getCachedImage('notool.png'));
   
   var itemImg = []
@@ -367,23 +367,33 @@ kyodai.preload = function()
  */ 
 kyodai.setting = function(arr)
 {
-  var itemImg = []
-  kyodai.shape = kyodai.random(kyodai.shape)
+  var itemImg = [];
+  kyodai.shape = kyodai.random(kyodai.shape);
   for (i=0; i<kyodai.shape.length; i++)
   {
-    var Img = arr[i]
-    x = kyodai.shape[i].x
-    y = kyodai.shape[i].y
-    kyodai.block[x+","+y] = Img
+    var Img = arr[i];
+    x = kyodai.shape[i].x;
+    y = kyodai.shape[i].y;
+    kyodai.block[x+","+y] = Img;
     if (Img)
     {
-      itemImg.push('<img id=Item_'+x+'_'+y+' class ="block_item" src="'+ kyodai.getCachedImage(kyodai.scene+'/'+ Img + '.png')+'" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">')
+      itemImg.push('<img id=Item_'+x+'_'+y+' class ="block_item" src="'+ kyodai.getCachedImage(kyodai.scene+'/'+ Img + '.png')+'" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">');
     }
   }
   $("#kyodai_items").html(itemImg.join(""));
+  
   $(".block_item").click(function() {
     kyodai.click($(this).position().left, $(this).position().top);
 	});
+  $(".block_item").hover(
+    function () {
+      $("#kyodai_hover").css("left",($(this).position().left) + "px");
+      $("#kyodai_hover").css("top",($(this).position().top) + "px");
+    }, 
+    function () {
+      $("#kyodai_hover").css("left","-2000px");
+    }
+	);
 }
 
 /**
@@ -415,46 +425,52 @@ kyodai.cancel = function()
  */ 
 kyodai.click = function(x,y)
 {
-  var ex = Math.floor(x / 35)
-  var ey = Math.floor(y / 35)
-  if (!kyodai.block[ex+","+ey]) return
-  kyodai.sound(2)
+  var ex = Math.ceil(x / 35);
+  var ey = Math.ceil(y / 35);
+  if (!kyodai.block[ex+","+ey]) return;
+  kyodai.sound(2);
   if (!kyodai.point)
   {
     // click at the first time
-    kyodai.choose(ex, ey)
-    return
+    kyodai.choose(ex, ey);
+    return;
   }
-  var sx = kyodai.point.x
-  var sy = kyodai.point.y
-  var s = sx+","+sy
-  var e = ex+","+ey
+  var sx = kyodai.point.x;
+  var sy = kyodai.point.y;
+  var s = sx+","+sy;
+  var e = ex+","+ey;
   if (s == e)
   {
     // click the same one twice
-    kyodai.cancel()
-    return
+    kyodai.cancel();
+    kyodai.combo = 0;
+    kyodai.updatecombo();
+    return;
   }
   var ss = kyodai.block[s]
   var ee = kyodai.block[e]
   if (ss != ee)
   {
     // choose unmatch
-    kyodai.choose(ex, ey)
-    return
+    kyodai.choose(ex, ey);
+    kyodai.combo = 0;
+    kyodai.updatecombo();
+    return;
   }
-  kyodai.cancel()
-  kyodai.block[s] = 0
-  kyodai.block[e] = 0
+  kyodai.cancel();
+  kyodai.block[s] = 0;
+  kyodai.block[e] = 0;
   var line = kyodai.find(sx, sy, ex, ey);
   if (!line)
   {
     // can't connect
     kyodai.block[s] = ss
     kyodai.block[e] = ee
-    return
+    kyodai.combo = 0;
+    kyodai.updatecombo();
+    return;
   }
-  if (ee < 4) kyodai.add(ee)
+  if (ee < 4) kyodai.add(ee);
   $("#kyodai_lines").html(line.join(""));
   $("#kyodai_lines img").hide();
   $("#kyodai_lines img").fadeIn("fast");
@@ -468,13 +484,52 @@ kyodai.click = function(x,y)
 kyodai.del = function(sx,sy,ex,ey)
 {
   kyodai.sound(3);
-  kyodai.count();
   kyodai.remain -= 2;
   $("#kyodai_remain").html('Remain : ' + kyodai.remain);
   $("#Item_"+sx+"_"+sy).fadeOut("fast");
   $("#Item_"+ex+"_"+ey).fadeOut("fast");
+  
+  if(kyodai.counts > 270){
+    kyodai.combo += 1;
+    if(kyodai.combo > kyodai.highestcombo){
+      kyodai.highestcombo = kyodai.combo;
+    }
+    kyodai.updatecombo();
+    kyodai.scores += 1;
+    $("#kyodai_scores").html('Scores : ' + kyodai.scores);
+    $("#kyodai_update").html('+1!');
+    $("#kyodai_update").fadeIn("normal");
+    $("#kyodai_update").fadeOut("normal");
+    
+  }
+  else{
+    kyodai.combo = 0;
+    kyodai.updatecombo();
+  }
+  
+  kyodai.count();
   // win
   if (!kyodai.remain) setTimeout("kyodai.over('win')",600);
+}
+
+/**
+ * update combo counts
+ */
+kyodai.updatecombo = function()
+{
+  switch (kyodai.highestcombo)
+  {
+    case 5 : $("#kyodai_combo").css("color","#66CC00"); $("#kyodai_board").css("color","#66CC00");
+    break;
+    case 10 : $("#kyodai_combo").css("color","#3399FF"); $("#kyodai_board").css("color","#3399FF");
+    break;
+    case 15 : $("#kyodai_combo").css("color","#9933FF"); $("#kyodai_board").css("color","#9933FF");
+    break;
+    case 20 : $("#kyodai_combo").css("color","#FF9933"); $("#kyodai_board").css("color","#FF9933");
+    break;
+    case 30 : $("#kyodai_combo").css("color","#FF0000"); $("#kyodai_board").css("color","#FF0000");
+  }
+  $("#kyodai_combo").html('Combo: ' + kyodai.combo + ' / ' + kyodai.highestcombo + ' Hits');
 }
 
 /**
@@ -485,11 +540,12 @@ kyodai.count = function()
   clearInterval(kyodai.timeid);
   $("#kyodai_count img").attr("src",kyodai.getCachedImage('count1.png'));
   $("#kyodai_count img").width(328);
+  kyodai.counts = 328
   kyodai.timeid = setInterval(function()
   {
-    var counts = $("#kyodai_count img").width();
-    $("#kyodai_count img").width(counts-1);
-    switch (counts)
+    kyodai.counts -= 1;
+    $("#kyodai_count img").width(kyodai.counts);
+    switch (kyodai.counts)
     {
       // timing bar
       case 270 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count2.png'));
@@ -502,10 +558,10 @@ kyodai.count = function()
       break;
       case  30 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count6.png'));
     }
-    if (counts < 2)
+    if (kyodai.counts < 2)
     {
       // Times up
-      kyodai.over('timeover');
+      kyodai.over('gameover');
     }
   }
   , 80)
@@ -596,8 +652,8 @@ kyodai.cue = function(isbomb)
             $("#kyodai_cuechoose").html('<img src = "'+ kyodai.getCachedImage('choose.png') +'" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
             + '<img src = "'+ kyodai.getCachedImage('choose.png') +'" style="position:absolute;left:'+ (ex*35) +'px;top:'+ ey*35 +'px">');
             $("#kyodai_lines").html(line.join(""));
-            $("#kyodai_lines img").fadeOut("slow");
-            $("#kyodai_cuechoose img").fadeOut("slow");
+            $("#kyodai_lines img").fadeOut(1000);
+            $("#kyodai_cuechoose img").fadeOut(1000);
             if (isbomb)
             {
               $("#kyodai_cuechoose").text("");
@@ -637,8 +693,6 @@ kyodai.sound = function(id)
     au_sound.Play();
   }
   catch(err){}
-  
-  
 }
 
 /**
@@ -649,12 +703,38 @@ kyodai.over = function(type)
   kyodai.cancel();
   clearInterval(kyodai.timeid);
   $("#kyodai_count img").width(0);
-  $("#kyodai_center").attr("src",kyodai.getCachedImage(type + '.png'));
-  $("#kyodai_center").css("display","");
   $("#kyodai_items").html("");
   $("#kyodai_ppt_num").html("");
+  $("#kyodai_remain").html("");
+  $("#kyodai_scores").html("");
+  $("#kyodai_combo").html("");
+  $("#kyodai_hover").css("left","-2000px");
+  $("#kyodai_choose").css("left","-2000px");
   $("#kyodai_ppt").html('<img src ="'+ kyodai.getCachedImage('notool.png') +'">');
   document.onkeydown = null;
+
+  if(type == 'win'){
+    var basic = kyodai.scores;
+    var props = 0;
+    for (var i=1; i<6; i++){
+      if(kyodai.pptnum[i]>0){
+        props += kyodai.pptnum[i];
+      }
+    }
+    kyodai.scores += kyodai.highestcombo*2 + props*5;
+    $("#kyodai_center").css("display","block");
+    $("#kyodai_center").html('<p class="centertitle">You Win!</p><div class="centerboard"><p>Basic Scores: ' + basic + ' x 1</p><p>Combo Bonus: ' + kyodai.highestcombo + ' x 2</p><p style="border-bottom:1px solid #FFF;">Props scores: ' + props + ' x 5</p><p>Total scores: ' + kyodai.scores + ' points </p></div><div id="centerbtn">New Game</div>');
+    $("#centerbtn").click(function() {
+		  kyodai.start();
+	  });
+  }
+  else{
+    $("#kyodai_center").css("display","block");
+    $("#kyodai_center").html('<p class="centertitle" style="margin-top:50px;">Game Over</p><div id="centerbtn" style="margin-top:30px;">New Game</div>');
+    $("#centerbtn").click(function() {
+		  kyodai.start();
+	  });
+  }
 }
 
 /**
@@ -682,5 +762,10 @@ kyodai.start = function()
     if (event.keyCode==49 && kyodai.pptnum[1]) kyodai.use(1);
     if (event.keyCode==50 && kyodai.pptnum[2]) kyodai.use(2);
   };
+  
+  kyodai.scores = 0;
+  kyodai.combo = 0;
+  kyodai.highestcombo = 0;
+  kyodai.counts = 0;
   kyodai.loadmap(Math.floor(Math.random()*kyodai.mapLength));
 }

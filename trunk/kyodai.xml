@@ -11,16 +11,13 @@
 
   <Content type="html" view="canvas">
   <![CDATA[ 
-    <script type="text/javascript" src="http://dw-kyodai.googlecode.com/svn/trunk/js/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://dw-kyodai.googlecode.com/svn/trunk/js/kyodai.js"></script>
     <link href="http://dw-kyodai.googlecode.com/svn/trunk/css/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-    $(document).ready(function(){
-			kyodai.preload();
+		function init(){ 
+      kyodai.preload();
 			
-	    $("#kyodai_map").click(function(event) {
-		    kyodai.click(event);
-	    });
 	    $("#kyodai_start").click(function() {
 		    kyodai.start();
 	    });
@@ -30,7 +27,9 @@
 	    $("#kyodai_ppt_2_num").click(function() {
 		    kyodai.use(2);
 	    });
-    });
+    }
+			
+		_IG_RegisterOnloadHandler(init);
     </script>
 
     <div id="everything">
@@ -42,21 +41,27 @@
 						<embed src="http://dw-kyodai.googlecode.com/svn/trunk/sound/SE.swf" width="285" height="200" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
 					</object>
 				
-					<img id="kyodai_game" src="" style="position:absolute"/>
+					<img id="kyodai_game" style="position:absolute"/>
 					<div id="kyodai_map">
 						<div id="kyodai_lines" style="position:absolute"></div>
 						<div id="kyodai_items" style="position:absolute"></div>
 						<div id="kyodai_preload" style="position:absolute"></div>
-						<img id="kyodai_choose" src="" style="position:absolute;left:-999px;z-index:999"/>
+						<img id="kyodai_choose" style="position:absolute;left:-999px;"/>
+						<img id="kyodai_hover" style="position:absolute;left:-999px;"/>
 						<div id="kyodai_cuechoose" style="position:absolute;z-index:999"></div>
 					</div>
 					
 					<div id="kyodai_remain"></div>
-					<div id="kyodai_count"><img src=""/></div>
-					<img id="kyodai_center" src=""/>
+					<div id="kyodai_combo"></div>
+					<div id="kyodai_board">
+						<span id="kyodai_scores"></span>
+						<span id="kyodai_update"></span>
+					</div>
+					<div id="kyodai_count"><img /></div>
+					<div id="kyodai_center"></div>
 					<div id="kyodai_start">Start Game</div>
 					<div id="toolbox">
-						<div id="kyodai_ppt"><img src=""></div>
+						<div id="kyodai_ppt"><img /></div>
 						<div id="kyodai_ppt_num"></div>
 					</div>
 				</div>
@@ -93,10 +98,12 @@
       //get's the images from the cache from the 'images' directory
       function getCachedImage(src) {
         //return IMAGES_BASE+src;
-				if (area == 'public')
+				if (area == 'public'){
 					return _IG_GetImageUrl(IMAGES_BASE+src);
-				else
-					return ('images/' + src)
+				}
+				else{
+					return ('images/' + src);
+				}
       }
             
       function switchToCanvas( params ) {
