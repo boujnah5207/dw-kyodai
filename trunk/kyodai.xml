@@ -7,7 +7,8 @@
   <Require feature="views"/>
   <Require feature="analytics" />
  </ModulePrefs>
-
+	<UserPref name="scores" default_value="0" datatype="hidden"/>
+  <UserPref name="rank" default_value="0" datatype="hidden"/>
 
   <Content type="html" view="canvas">
   <![CDATA[ 
@@ -15,8 +16,13 @@
     <script type="text/javascript" src="http://dw-kyodai.googlecode.com/svn/trunk/js/kyodai.js"></script>
     <link href="http://dw-kyodai.googlecode.com/svn/trunk/css/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript">
+		var prefs = new _IG_Prefs();
+		var scores = prefs.getInt("scores");
+		var rank = prefs.getInt("rank");
+		
 		function init(){ 
       kyodai.preload();
+			
 			
 	    $("#kyodai_start").click(function() {
 		    kyodai.start();
@@ -28,7 +34,7 @@
 		    kyodai.use(2);
 	    });
     }
-			
+		
 		_IG_RegisterOnloadHandler(init);
     </script>
 
@@ -94,6 +100,7 @@
 			//var area = 'private';
       var IMAGES_BASE = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
       var prefs = new _IG_Prefs();
+			var scores = prefs.getInt("scores");
 
       //get's the images from the cache from the 'images' directory
       function getCachedImage(src) {
@@ -113,6 +120,7 @@
       
       function init(){ 
         $('#main').css('background','url'+'('+getCachedImage('main.png')+') no-repeat');
+				$('#ranke').html('Scores : ' + scores);
       }
 			
 			_IG_RegisterOnloadHandler(init);
