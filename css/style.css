@@ -1,15 +1,29 @@
 body { margin:0;font:12px Tahoma;} 
-#everything { width:750px; height:500px;background:url(../images/bg.jpg);margin-top: 20px; margin-left:120px;}
-#middle { clear:both;  padding:15px 20px; }
+#everything { width:750px; height:500px;background:url(../images/bg.jpg);margin-top: 20px; margin-left:100px;}
+#middle { clear:both;  padding:15px 23px; }
 #kyodai_background{background:url(../images/game.png);}
 #kyodai_scene{ position:relative; width:700px; left:0px; cursor: pointer;}
-#kyodai_map{ left:10px; top:5px; position:absolute;}
+#kyodai_map{ left:15px; top:5px; position:absolute;}
 #kyodai_ppt,#kyodai_ppt_num{position:absolute;left:2px;}
-#kyodai_center{position:absolute;left:240px;top:20px}
-#kyodai_remain{font-weight:bold; color:#fefe00; position:absolute;top:410px;right:200px}
+#kyodai_choose{
+z-index:1 !important; /*Style for FF*/
+z-index:-1;/* for IE */
+}
+#kyodai_hover{
+z-index:1 !important; /*Style for FF*/
+z-index:-1;/* for IE */
+}
+#kyodai_center{position:absolute;left:200px;top:100px;background:url(../images/center.png) no-repeat;width:303px;height:203px;display: none;}
+#kyodai_remain{font-weight:bold; font-size: 11px; color:#66CCFF; position:absolute;top:408px;right:280px;}
+#kyodai_board{font-weight:bold; font-size: 11px; color:#DDD; position:absolute;top:408px;left:550px;}
+#kyodai_combo{font-weight:bold; font-size: 11px; color:#DDD; position:absolute;top:408px;right:160px;}
 #kyodai_count img{width:330px;height:8px;float:right;margin-top:1px;margin-right:5px;}
 #kyodai_count{position:absolute;width:340px;height:11px;top:410px;background:url(../images/timebar.png);}
 #kyodai_start{ background:url(../images/start_btn.png) no-repeat; width:87px; height:30px; position:absolute;top:430px;right:0px;font-size:12px; font-weight: bold;text-align: center; color:#FFFFFF; text-decoration:none; line-height:25px; cursor: pointer;}
 #kyodai_start:hover { background:url(../images/start_btn_hover.png) no-repeat;  }
 #toolbox { background:url(../images/toolbar.png); width:200px; height:37px; position:absolute;top:430px; }
 .preload{position:absolute;left:1000px;top:1000px;}
+.centertitle{font-weight:bold; font-size: 20px; color:#FFF;text-align:center;margin:10px;}
+.centerboard{font-weight:bold; font-size: 12px; color:#FFF;padding-left:75px; width:180px;}
+#centerbtn{ background:url(../images/new_btn.png) no-repeat; width:137px; height:32px;margin-left:85px; font-size:14px; font-weight: bold;text-align: center; color:#FFFFFF; text-decoration:none; line-height:25px; cursor: pointer;}
+#centerbtn:hover { background:url(../images/new_btn_hover.png) no-repeat;}
