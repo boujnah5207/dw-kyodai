@@ -10,8 +10,8 @@
 // Namespace assigned to this library of kyodai-related classes
 var kyodai = {mapX:19, mapY:11, mapLength:14};
 
-//kyodai.area = 'private';
-kyodai.area = 'public';
+kyodai.area = 'private';
+//kyodai.area = 'public';
 kyodai.imageshost = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
 kyodai.scene = 'tooth';
 
@@ -33,18 +33,18 @@ kyodai.getCachedImage =	function(src) {
 kyodai.cross = function(x, y)
 {
   for (var x1=x-1; x1>-1; x1--)
-    if (kyodai.block[x1+ "," +y]) break
+    if (kyodai.block[x1+ "," +y]) break;
 
   for (var x2=x+1; x2<kyodai.mapX; x2++)
-    if (kyodai.block[x2+ "," +y]) break
+    if (kyodai.block[x2+ "," +y]) break;
 
   for (var y1=y-1; y1>-1; y1--)
-    if (kyodai.block[x+ "," +y1]) break
+    if (kyodai.block[x+ "," +y1]) break;
 
   for (var y2=y+1; y2<kyodai.mapY; y2++)
-    if (kyodai.block[x+ "," +y2]) break
+    if (kyodai.block[x+ "," +y2]) break;
 
-  return {x1:x1, x2:x2, y1:y1, y2:y2}
+  return {x1:x1, x2:x2, y1:y1, y2:y2};
 }
 
 /**
@@ -58,13 +58,13 @@ kyodai.passx = function(x1,x2,y)
 {
   if (x1 < x2){
     while (++x1 < x2)
-      if (kyodai.block[x1+ "," +y]) return false
+      if (kyodai.block[x1+ "," +y]) return false;
   }
   else{
     while (++x2 < x1)
-      if (kyodai.block[x2+ "," +y]) return false
+      if (kyodai.block[x2+ "," +y]) return false;
   }
-  return true
+  return true;
 }
 
 /**
@@ -78,13 +78,13 @@ kyodai.passy = function(y1,y2,x)
 {
   if (y1 < y2){
     while (++y1 < y2)
-      if (kyodai.block[x+ "," +y1]) return false
+      if (kyodai.block[x+ "," +y1]) return false;
   }
   else{
     while (++y2 < y1)
-      if (kyodai.block[x+ "," +y2]) return false
+      if (kyodai.block[x+ "," +y2]) return false;
   }
-  return true
+  return true;
 }
 
 /**
@@ -96,18 +96,18 @@ kyodai.passy = function(y1,y2,x)
  */  
 kyodai.linex = function(x1, x2, y)
 {
-  var path = []
+  var path = [];
   if (x1 < x2)
   {
     while (x1++ < x2)
-    path.push('<img src="'+kyodai.getCachedImage('linex.png')+'" style="position:absolute;left:'+(x1*35-17)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="'+kyodai.getCachedImage('linex.png')+'" style="position:absolute;left:'+(x1*35-17)+'px;top:'+y*35+'px"/>');
   }
   else
   {
     while (x2++ < x1)
-    path.push('<img src="'+kyodai.getCachedImage('linex.png')+'"  style="position:absolute;left:'+(x2*35-17)+'px;top:'+y*35+'px"/>')
+    path.push('<img src="'+kyodai.getCachedImage('linex.png')+'"  style="position:absolute;left:'+(x2*35-17)+'px;top:'+y*35+'px"/>');
   }
-  return path
+  return path;
 }
 
 /**
@@ -119,18 +119,18 @@ kyodai.linex = function(x1, x2, y)
  */  
 kyodai.liney = function(y1, y2, x)
 {
-  var path = []
+  var path = [];
   if (y1 < y2)
   {
     while (y1++ < y2)
-    path.push('<img src="'+kyodai.getCachedImage('liney.png')+'" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-17)+'px"/>')
+    path.push('<img src="'+kyodai.getCachedImage('liney.png')+'" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-17)+'px"/>');
   }
   else
   {
     while (y2++ < y1)
-    path.push('<img src="'+kyodai.getCachedImage('liney.png')+'" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-17)+'px"/>')
+    path.push('<img src="'+kyodai.getCachedImage('liney.png')+'" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-17)+'px"/>');
   }
-  return path
+  return path;
 }
 
 /**
@@ -144,70 +144,70 @@ kyodai.liney = function(y1, y2, x)
 kyodai.find = function(sx,sy,ex,ey)
 {
   // draw cross from first point
-  var s = kyodai.cross(sx, sy)
+  var s = kyodai.cross(sx, sy);
   // if the cross of first point passes the second point
-  if (sy==ey && s.x1<ex && ex<s.x2) return kyodai.linex(sx, ex, sy)
-  if (sx==ex && s.y1<ey && ey<s.y2) return kyodai.liney(sy, ey, sx)
+  if (sy==ey && s.x1<ex && ex<s.x2) return kyodai.linex(sx, ex, sy);
+  if (sx==ex && s.y1<ey && ey<s.y2) return kyodai.liney(sy, ey, sx);
   // draw cross from first point
-  var e = kyodai.cross(ex, ey)
+  var e = kyodai.cross(ex, ey);
   // if the cross of first point passes the cross of second point
-  var x1 = s.x1 < e.x1 ? e.x1 : s.x1
-  var x2 = s.x2 > e.x2 ? e.x2 : s.x2
-  var y1 = s.y1 < e.y1 ? e.y1 : s.y1
-  var y2 = s.y2 > e.y2 ? e.y2 : s.y2
+  var x1 = s.x1 < e.x1 ? e.x1 : s.x1;
+  var x2 = s.x2 > e.x2 ? e.x2 : s.x2;
+  var y1 = s.y1 < e.y1 ? e.y1 : s.y1;
+  var y2 = s.y2 > e.y2 ? e.y2 : s.y2;
   // if the cross of second point passes the first point
   if (x1<sx && sx<x2 && y1<ey && ey<y2)
-    return kyodai.liney(sy, ey, sx).concat(kyodai.linex(sx, ex, ey))
+    return kyodai.liney(sy, ey, sx).concat(kyodai.linex(sx, ex, ey));
   if (x1<ex && ex<x2 && y1<sy && sy<y2)
-    return kyodai.liney(sy, ey, ex).concat(kyodai.linex(sx, ex, sy))
+    return kyodai.liney(sy, ey, ex).concat(kyodai.linex(sx, ex, sy));
   // if the cross of two points in the same line in x direction
   if (sx < ex)
   {
-    var x3 = sx
-    var x4 = ex
-    var s1 = sy
-    var e1 = ey
+    var x3 = sx;
+    var x4 = ex;
+    var s1 = sy;
+    var e1 = ey;
   }
   else
   {
-    var x3 = ex
-    var x4 = sx
-    var s1 = ey
-    var e1 = sy
+    var x3 = ex;
+    var x4 = sx;
+    var s1 = ey;
+    var e1 = sy;
   }
   for (var x=x3+1; x<x4; x++)
   {
     if (x1<x && x<x2 && kyodai.passy(s1, e1, x))
     {
-      return kyodai.liney(s1, e1, x).concat(kyodai.linex(x3, x, s1), kyodai.linex(x, x4, e1))
+      return kyodai.liney(s1, e1, x).concat(kyodai.linex(x3, x, s1), kyodai.linex(x, x4, e1));
     }
   }
   // if the cross of two points in the same line in y direction
   if (sy < ey)
   {
-    var y3 = sy
-    var y4 = ey
-    var s2 = sx
-    var e2 = ex
+    var y3 = sy;
+    var y4 = ey;
+    var s2 = sx;
+    var e2 = ex;
   }
   else
   {
-    var y3 = ey
-    var y4 = sy
-    var s2 = ex
-    var e2 = sx
+    var y3 = ey;
+    var y4 = sy;
+    var s2 = ex;
+    var e2 = sx;
   }
   for (var y=y3+1; y<y4; y++)
   {
     if (y1<y && y<y2 && kyodai.passx(s2, e2, y))
     {
-      return kyodai.linex(s2, e2, y).concat(kyodai.liney(y3, y, s2), kyodai.liney(y, y4, e2))
+      return kyodai.linex(s2, e2, y).concat(kyodai.liney(y3, y, s2), kyodai.liney(y, y4, e2));
     }
   }
-  s1 = true
-  e1 = true
-  s2 = true
-  e2 = true
+  s1 = true;
+  e1 = true;
+  s2 = true;
+  e2 = true;
   // spread the rectangle composed by the cross of two points
   while (s1 || e1 || s2 || e2)
   {
@@ -217,10 +217,10 @@ kyodai.find = function(sx,sy,ex,ey)
       {
         if (kyodai.passy(sy, ey, x3))
         {
-          return kyodai.liney(sy, ey, x3).concat(kyodai.linex(x3, sx, sy), kyodai.linex(x3, ex, ey))
+          return kyodai.liney(sy, ey, x3).concat(kyodai.linex(x3, sx, sy), kyodai.linex(x3, ex, ey));
         }
       }
-      else s1 = false
+      else s1 = false;
     }
     if (e1)
     {
@@ -228,10 +228,10 @@ kyodai.find = function(sx,sy,ex,ey)
       {
         if (kyodai.passy(sy, ey, x4))
         {
-          return kyodai.liney(sy, ey, x4).concat(kyodai.linex(x4, sx, sy), kyodai.linex(x4, ex, ey))
+          return kyodai.liney(sy, ey, x4).concat(kyodai.linex(x4, sx, sy), kyodai.linex(x4, ex, ey));
         }
       }
-      else e1 = false
+      else e1 = false;
     }
     if (s2)
     {
@@ -239,10 +239,10 @@ kyodai.find = function(sx,sy,ex,ey)
       {
         if (kyodai.passx(sx, ex, y3))
         {
-          return kyodai.linex(sx, ex, y3).concat(kyodai.liney(y3, sy, sx), kyodai.liney(y3, ey, ex))
+          return kyodai.linex(sx, ex, y3).concat(kyodai.liney(y3, sy, sx), kyodai.liney(y3, ey, ex));
         }
       }
-      else s2 = false
+      else s2 = false;
     }
     if (e2)
     {
@@ -250,13 +250,13 @@ kyodai.find = function(sx,sy,ex,ey)
       {
         if (kyodai.passx(sx, ex, y4))
         {
-          return kyodai.linex(sx, ex, y4).concat(kyodai.liney(y4, sy, sx), kyodai.liney(y4, ey, ex))
+          return kyodai.linex(sx, ex, y4).concat(kyodai.liney(y4, sy, sx), kyodai.liney(y4, ey, ex));
         }
       }
-      else e2 = false
+      else e2 = false;
     }
   }
-  return false
+  return false;
 }
 
 /**
@@ -286,7 +286,7 @@ kyodai.loadmap = function(mapnum)
   bxlen = blocks[0].length;
   for(var x=0; x<blen; x++)
   {
-    bx = blocks[x]
+    bx = blocks[x];
     for(var y=0; y<bxlen; y++)
     {
       if (bx.charAt(y) == "1")
@@ -343,7 +343,7 @@ kyodai.preload = function()
   $("#kyodai_count img").attr('src', kyodai.getCachedImage('count.png'));
   $("#kyodai_ppt img").attr('src', kyodai.getCachedImage('notool.png'));
   
-  var itemImg = []
+  var itemImg = [];
   for (i=0; i<42; i++)
   {
     itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage(kyodai.scene+'/'+ i + '.png') +'">');
@@ -404,7 +404,7 @@ kyodai.setting = function(arr)
 kyodai.choose = function(x, y)
 {
   $("#kyodai_cuechoose").html("");
-  kyodai.point = {x:x, y:y}
+  kyodai.point = {x:x, y:y};
   $("#kyodai_choose").css("left",( x * 35) + "px");
   $("#kyodai_choose").css("top",(y * 35) + "px");
 }
@@ -415,7 +415,7 @@ kyodai.choose = function(x, y)
 kyodai.cancel = function()
 {
   $("#kyodai_cuechoose").html("");
-  kyodai.point = false
+  kyodai.point = false;
   $("#kyodai_choose").css("left","-2000px");
 }
 
@@ -447,8 +447,8 @@ kyodai.click = function(x,y)
     kyodai.updatecombo();
     return;
   }
-  var ss = kyodai.block[s]
-  var ee = kyodai.block[e]
+  var ss = kyodai.block[s];
+  var ee = kyodai.block[e];
   if (ss != ee)
   {
     // choose unmatch
@@ -464,8 +464,8 @@ kyodai.click = function(x,y)
   if (!line)
   {
     // can't connect
-    kyodai.block[s] = ss
-    kyodai.block[e] = ee
+    kyodai.block[s] = ss;
+    kyodai.block[e] = ee;
     kyodai.combo = 0;
     kyodai.updatecombo();
     return;
@@ -540,7 +540,7 @@ kyodai.count = function()
   clearInterval(kyodai.timeid);
   $("#kyodai_count img").attr("src",kyodai.getCachedImage('count1.png'));
   $("#kyodai_count img").width(328);
-  kyodai.counts = 328
+  kyodai.counts = 328;
   kyodai.timeid = setInterval(function()
   {
     kyodai.counts -= 1;
@@ -575,7 +575,7 @@ kyodai.random = function(arr)
   var rnd = [];
   while (arr.length)
   {
-    rnd=rnd.splice(0,Math.floor(Math.random()*(rnd.length+1))).concat(arr.splice(Math.floor(Math.random()*arr.length),1),rnd)
+    rnd=rnd.splice(0,Math.floor(Math.random()*(rnd.length+1))).concat(arr.splice(Math.floor(Math.random()*arr.length),1),rnd);
   }
   return rnd;
 }
@@ -617,10 +617,10 @@ kyodai.use = function(id)
   {
     // suggest
     case 1 : kyodai.cue(false);
-    break
+    break;
     // reset
     case 2 : kyodai.reset();
-    break
+    break;
     // bomb
     case 3 : kyodai.cue(true);
   }
@@ -713,7 +713,7 @@ kyodai.over = function(type)
   $("#kyodai_ppt").html('<img src ="'+ kyodai.getCachedImage('notool.png') +'">');
   document.onkeydown = null;
 
-  if(type == 'win'){
+  if(type != 'win'){
     var basic = kyodai.scores;
     var props = 0;
     for (var i=1; i<6; i++){
@@ -742,6 +742,8 @@ kyodai.over = function(type)
  */
 kyodai.start = function()
 {
+  $("#kyodai_scores").html("");
+  $("#kyodai_combo").html("");
   $("#kyodai_center").css("display","none");
   kyodai.sound(1);
   kyodai.cancel();
