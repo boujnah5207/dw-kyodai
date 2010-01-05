@@ -87,7 +87,7 @@
       
       #main {
         width:246px;
-        height:151px;
+        height:156px;
         cursor:pointer;
       }
     </style>
