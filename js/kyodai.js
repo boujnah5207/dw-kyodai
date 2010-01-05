@@ -10,8 +10,8 @@
 // Namespace assigned to this library of kyodai-related classes
 var kyodai = {mapX:19, mapY:11, mapLength:14};
 
-kyodai.area = 'private';
-//kyodai.area = 'public';
+//kyodai.area = 'private';
+kyodai.area = 'public';
 kyodai.imageshost = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
 kyodai.scene = 'tooth';
 
