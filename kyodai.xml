@@ -112,12 +112,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 
     <script type="text/javascript">
-      $(document).ready(function(){
-        init();
-      });
-      
-		  //var area = 'public';
-			var area = 'private';
+		  var area = 'public';
       var IMAGES_BASE = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
       var prefs = new _IG_Prefs();
       var totalscores = prefs.getInt("totalscores");
@@ -142,6 +137,7 @@
         $('#main').css('background','url'+'('+getCachedImage('main.png')+') no-repeat');
         $('#mylevel').html('Level ' + level);
         $('#myscore').html(totalscores);
+				$('#myrecord').html(record);
       }
 			
 			_IG_RegisterOnloadHandler(init);
