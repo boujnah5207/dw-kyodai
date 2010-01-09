@@ -66,7 +66,7 @@ kyodai.getLevel = function()
 kyodai.preload = function()
 {
   $("#kyodai_game").attr('src', kyodai.getCachedImage('game1.jpg'));
-  $("#kyodai_choose").attr('src', kyodai.getCachedImage('choose.png'));
+  $("#kyodai_choose").attr('src', kyodai.getCachedImage('notool.png'));
   $("#kyodai_hover").attr('src', kyodai.getCachedImage('choose.png'));
   $("#kyodai_count img").attr('src', kyodai.getCachedImage('count.png'));
   $("#kyodai_ppt img").attr('src', kyodai.getCachedImage('notool.png'));
@@ -79,7 +79,23 @@ kyodai.preload = function()
     kyodai.getLevel();
   }
 
+  var itemImg = [];
+  for (i=0; i<42; i++)
+  {
+    itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage(kyodai.scene+'/'+ i + '.png') +'">');
+  }
   
+  itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('linex.png') +'">');
+  itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('liney.png') +'">');
+  
+  for (i=1; i<6; i++)
+  {
+    itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('tool'+ i + '.png')+'">');
+    itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('tool_num_'+ i + '.png')+'">');
+  }
+  itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('start_btn_hover.png')+'">');
+  
+  $("#kyodai_preload").html(itemImg.join(""));
 }
 
 /**
