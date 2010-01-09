@@ -23,7 +23,7 @@ body { margin:0;font:bold 11px Tahoma;}
 #statbar { width:148px; height:500px; background:url(../images/statbar.jpg);margin-top: 20px; margin-left:10px;float:left;}
 #mystat {padding:15px; color:#FFF;}
 #scores{margin:5px;}
-.preload{position:absolute;left:1000px;top:1000px;}
+.preload{position:absolute;left:10px;top:10px;}
 .statv{margin-top:15px;color:#a0a0a0;}
 .scorespan{color:#374D4F;line-height:20px;}
 .blue{color:#53a9ff;}

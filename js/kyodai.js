@@ -66,7 +66,7 @@ kyodai.getLevel = function()
 kyodai.preload = function()
 {
   $("#kyodai_game").attr('src', kyodai.getCachedImage('game1.jpg'));
-  $("#kyodai_choose").attr('src', kyodai.getCachedImage('notool.png'));
+  $("#kyodai_choose").attr('src', kyodai.getCachedImage('choose.png'));
   $("#kyodai_hover").attr('src', kyodai.getCachedImage('choose.png'));
   $("#kyodai_count img").attr('src', kyodai.getCachedImage('count.png'));
   $("#kyodai_ppt img").attr('src', kyodai.getCachedImage('notool.png'));
