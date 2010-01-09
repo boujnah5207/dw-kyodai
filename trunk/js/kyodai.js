@@ -37,7 +37,6 @@ kyodai.getCachedImage =	function(src) {
 kyodai.getTotalscores = function()
 {
   kyodai.totalscores = kyodai.prefs.getInt("totalscores");
-  alert(kyodai.totalscores);
   $("#myscore").html(kyodai.totalscores);
 }
 
@@ -73,7 +72,6 @@ kyodai.preload = function()
   $("#levelimg").attr('src', kyodai.getCachedImage('level0.png'));
   
   if (kyodai.area == 'public'){
-    alert('why');
     kyodai.prefs = new _IG_Prefs();
     kyodai.getTotalscores();
     kyodai.getRecord();
