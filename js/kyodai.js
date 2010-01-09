@@ -75,7 +75,7 @@ kyodai.preload = function()
     kyodai.prefs = new _IG_Prefs();
     kyodai.getTotalscores();
     kyodai.getRecord();
-    kyodai.getLevel();
+    //kyodai.getLevel();
   }
 
   var itemImg = [];
