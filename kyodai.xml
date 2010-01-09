@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <Module>
- <ModulePrefs author="Hyram Duke" author_email="hyramduke@gmail.com" description="My first gadget" thumbnail="http://www.labpixies.com/campaigns/flood/images/thumb120x60.png" screenshot="http://www.labpixies.com/campaigns/flood/images/screenshot_orkut.png" title_url="" title="DW Kyodai" height="220">
-  <Require feature="rpc"/>
-  <Require feature="dynamic-height"/> 
-  <Require feature="setprefs"/>
+  <ModulePrefs author="Hyram Du"
+	author_email="hyramduke@gmail.com"
+	description="Kyodai is a fun and addictive picture matching game. Click on the pair of block with the same picture as quickly as you can, before the timebar run out. The quicker you find, the higher the score you get. Have fun..."
+	screenshot="http://dw-kyodai.googlecode.com/svn/trunk/images/screen.jpg"
+	title="DW Kyodai"
+	title_url=""
+	thumbnail="http://dw-kyodai.googlecode.com/svn/trunk/images/thumb.jpg" height="395" render_inline="never" >
+		
+	<Require feature="setprefs"/>
   <Require feature="views"/>
-  <Require feature="analytics" />
  </ModulePrefs>
 	<UserPref name="totalscores" default_value="0" datatype="hidden"/>
   <UserPref name="level" default_value="0" datatype="hidden"/>
