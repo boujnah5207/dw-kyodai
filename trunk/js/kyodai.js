@@ -21,16 +21,25 @@ kyodai.levelscore = [0,10000,30000,100000,200000,350000,500000,1000000];
 
 /**
  * get Cached Image
- */ 
-kyodai.getCachedImage =	function(src) {
-  if (kyodai.area == 'public'){
-    return _IG_GetImageUrl(kyodai.imageshost+src);
-    //return kyodai.imageshost+src;
+ */
+if (kyodai.area == 'public'){
+  if(navigator.userAgent.indexOf("MSIE")>0){
+    kyodai.getCachedImage =	function(src) {
+      return kyodai.imageshost+src;
+    }
   }
   else{
-    return ('images/' + src);
+    kyodai.getCachedImage =	function(src) {
+      return _IG_GetImageUrl(kyodai.imageshost+src);
+    } 
   }
 }
+else{
+  kyodai.getCachedImage =	function(src) {
+    return ('images/' + src);
+  } 
+}
+
 
 /**
  * get Total Scores
