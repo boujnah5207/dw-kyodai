@@ -24,7 +24,8 @@ kyodai.levelscore = [0,10000,30000,100000,200000,350000,500000,1000000];
  */ 
 kyodai.getCachedImage =	function(src) {
   if (kyodai.area == 'public'){
-    return _IG_GetImageUrl(kyodai.imageshost+src);
+    //return _IG_GetImageUrl(kyodai.imageshost+src);
+    return kyodai.imageshost+src;
   }
   else{
     return ('images/' + src);
