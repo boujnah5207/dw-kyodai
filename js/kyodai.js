@@ -74,6 +74,7 @@ kyodai.preload = function()
   if (kyodai.area == 'public'){
     alert('why');
     kyodai.prefs = new _IG_Prefs();
+    alert('oh no');
     kyodai.getTotalscores();
     kyodai.getRecord();
     kyodai.getLevel();
