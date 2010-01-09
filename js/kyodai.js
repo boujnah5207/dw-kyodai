@@ -67,7 +67,7 @@ kyodai.preload = function()
   $("#kyodai_game").attr('src', kyodai.getCachedImage('game1.jpg'));
   $("#kyodai_choose").attr('src', kyodai.getCachedImage('choose.png'));
   $("#kyodai_hover").attr('src', kyodai.getCachedImage('choose.png'));
-  $("#levelimg").attr('src', kyodai.getCachedImage('level0.png'));
+  //$("#levelimg").attr('src', kyodai.getCachedImage('level0.png'));
   $("#kyodai_count img").attr('src', kyodai.getCachedImage('count.png'));
   $("#kyodai_ppt img").attr('src', kyodai.getCachedImage('notool.png'));
   
