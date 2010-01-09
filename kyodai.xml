@@ -54,7 +54,7 @@
 						<span id="kyodai_scores"></span>
 						<span id="kyodai_update"></span>
 					</div>
-					<div id="kyodai_count"><img /></div>
+					<img id="kyodai_count" />
 					<div id="kyodai_center"></div>
 					<div id="kyodai_start">Start Game</div>
 					<div id="toolbox">
