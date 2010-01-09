@@ -37,8 +37,8 @@ kyodai.getCachedImage =	function(src) {
 kyodai.getTotalscores = function()
 {
   kyodai.totalscores = kyodai.prefs.getInt("totalscores");
-  alert('oh no');
-  $("#myscore").html(totalscores);
+  alert(kyodai.totalscores);
+  $("#myscore").html(kyodai.totalscores);
 }
 
 /**
@@ -47,7 +47,7 @@ kyodai.getTotalscores = function()
 kyodai.getRecord = function()
 {
   kyodai.record = kyodai.prefs.getInt("record");
-  $("#myrecord").html(record);
+  $("#myrecord").html(kyodai.record);
 }
 
 /**
@@ -57,7 +57,7 @@ kyodai.getLevel = function()
 {
   kyodai.level = kyodai.prefs.getInt("level");
   $("#levelimg").attr('src', kyodai.getCachedImage('level'+kyodai.level+'.png'));
-  $("#mylevel").html("Level " + level);
+  $("#mylevel").html("Level " + kyodai.level);
 }
 
 /**
