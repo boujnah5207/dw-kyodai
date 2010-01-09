@@ -1,41 +1,940 @@
-var kyodai={mapX:19,mapY:11,mapLength:14};kyodai.area="public";kyodai.imageshost="http://dw-kyodai.googlecode.com/svn/trunk/images/";kyodai.scene="tooth";kyodai.totalscores=0;kyodai.record=0;kyodai.level=0;kyodai.levelscore=[0,1E4,3E4,1E5,2E5,35E4,5E5,1E6];kyodai.getCachedImage=function(a){return kyodai.area=="public"?_IG_GetImageUrl(kyodai.imageshost+a):"images/"+a};kyodai.getTotalscores=function(){kyodai.totalscores=kyodai.prefs.getInt("totalscores");$("#myscore").html(kyodai.totalscores)};
-kyodai.getRecord=function(){kyodai.record=kyodai.prefs.getInt("record");$("#myrecord").html(kyodai.record)};kyodai.getLevel=function(){kyodai.level=kyodai.prefs.getInt("level");$("#levelimg").attr("src",kyodai.getCachedImage("level"+kyodai.level+".png"));$("#mylevel").html("Level "+kyodai.level)};
-kyodai.preload=function(){$("#kyodai_game").attr("src",kyodai.getCachedImage("game1.jpg"));$("#kyodai_choose").attr("src",kyodai.getCachedImage("choose.png"));$("#kyodai_hover").attr("src",kyodai.getCachedImage("choose.png"));$("#kyodai_count img").attr("src",kyodai.getCachedImage("count.png"));$("#kyodai_ppt img").attr("src",kyodai.getCachedImage("notool.png"));$("#levelimg").attr("src",kyodai.getCachedImage("level0.png"));if(kyodai.area=="public"){kyodai.prefs=new _IG_Prefs;kyodai.getTotalscores();
-kyodai.getRecord();kyodai.getLevel()}var a=[];for(i=0;i<42;i++){a.push('<img class="preload" src="'+kyodai.getCachedImage(kyodai.scene+"/"+i+".png")+'">');a.push('<img class="preload" src="'+kyodai.getCachedImage("linex.png")+'">');a.push('<img class="preload" src="'+kyodai.getCachedImage("liney.png")+'">')}for(i=1;i<6;i++){a.push('<img class="preload" src="'+kyodai.getCachedImage("tool"+i+".png")+'">');a.push('<img class="preload" src="'+kyodai.getCachedImage("tool_num_"+i+".png")+'">')}a.push('<img class="preload" src="'+
-kyodai.getCachedImage("start_btn_hover.png")+'">');$("#kyodai_preload").html(a.join(""))};
-kyodai.start=function(){$("#kyodai_scores").html("");$("#kyodai_combo").html("");$("#kyodai_combo").css("color","#CCC");$("#kyodai_board").css("color","#CCC");$("#kyodai_center").css("display","none");kyodai.sound(1);kyodai.cancel();kyodai.pptnum={1:3,2:3};$("#kyodai_ppt").html('<img id=kyodai_ppt_1 src ="'+kyodai.getCachedImage("tool1.png")+'"><img id=kyodai_ppt_2 src ="'+kyodai.getCachedImage("tool2.png")+'">');$("#kyodai_ppt_num").html('<img id=kyodai_ppt_1_num src ="'+kyodai.getCachedImage("tool_num_3.png")+
-'"><img id=kyodai_ppt_2_num src ="'+kyodai.getCachedImage("tool_num_3.png")+'">');$("#kyodai_ppt_1_num").click(function(){kyodai.use(1)});$("#kyodai_ppt_2_num").click(function(){kyodai.use(2)});document.onkeydown=function(){event.keyCode==49&&kyodai.pptnum[1]&&kyodai.use(1);event.keyCode==50&&kyodai.pptnum[2]&&kyodai.use(2)};kyodai.scores=0;kyodai.combo=0;kyodai.speed=0;kyodai.highestcombo=0;kyodai.counts=0;kyodai.loadmap(Math.floor(Math.random()*kyodai.mapLength))};
-kyodai.loadmap=function(a){kyodai.block={};kyodai.shape=[];a=["1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1","-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-",
-"1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1","-------------------\n----11111-11111----\n---111111-111111---\n--111111---111111--\n-111111-----111111-\n-------------------\n-111111-----111111-\n--111111---111111--\n---111111-111111---\n----11111-11111----\n-------------------","---1-----1-----1---\n--111---111---111--\n-11111-11111-11111-\n--111---111---111--\n---1-----1-----1---\n-------------------\n-11-11-11-11-11-11-\n-1---1-1---1-1---1-\n---1-----1-----1---\n-1---1-1---1-1---1-\n-11-11-11-11-11-11-",
-"11--1--11111--1--11\n1--1--1-----1--1--1\n1-1--1--111--1--1-1\n1-1-1--1---1--1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1--1---1--1-1-1\n1-1--1--111--1--1-1\n1--1--1-----1--1--1\n11--1--11111--1--11","-1----111-111----1-\n-11---111-111---11-\n--11---11111---11--\n---11---111---11---\n1---11---1---11---1\n11---11-----11---11\n1---11---1---11---1\n---11---111---11---\n--11---11111---11--\n-11---111-111---11-\n-1----111-111----1-","11111---------11111\n111111-------111111\n-111111-----111111-\n--11111-----11111--\n-------------------\n-------------------\n-111-1-1-1-1-1-111-\n---1-1-1-1-1-1-1---\n---11-1-1-1-1-11---\n----11111111111----\n---------1---------",
-"1111111111111111111\n1-----------------1\n1-111111111111111-1\n1-1-------------1-1\n1-1-1111111111--1-1\n1-1-1-----------1-1\n1-1-1111111111111-1\n1-1---------------1\n1-11111111111111111\n1------------------\n1111111111111111111","-------------------\n---1--1111111--1---\n--11-1111-1111-11--\n-111-111---111-111-\n-111-11-----11-111-\n-1-1-11-----11-1-1-\n-111-11-----11-111-\n-111-111---111-111-\n--11-1111-1111-11--\n---1--1111111--1---\n-------------------","---111111111111111-\n--11111111111111111\n--11---------------\n--11--1111111111---\n--11--11111111111--\n--11-----------11--\n--11111111111--11--\n---1111111111--11--\n---------------11--\n11111111111111111--\n-111111111111111---",
-"---1111111111111111\n-1-11----1---1--1-1\n1--11----1---1--1-1\n1-111----1---1--1-1\n11111----1---1--1-1\n-111111111111111111\n11111----1---1--1-1\n1-111----1---1--1-1\n1--11----1---1--1-1\n-1-11----1---1--1-1\n---1111111111111111","---11-------1111---\n--1111-----111111--\n-111111---11111111-\n11-11-11---111111--\n---11-------1111---\n---11--------11----\n--1111----11111111-\n-111111---11111111-\n11111111-----11----\n-111111------11----\n--1111-------11----","1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1"][a].split("\n");
-blen=a.length;bxlen=a[0].length;for(var b=0;b<blen;b++){bx=a[b];for(var c=0;c<bxlen;c++)bx.charAt(c)=="1"&&kyodai.shape.push({x:c,y:b})}a=[];b=kyodai.random([1,2,3,4,5,6,7,8]);c=2;for(var d=kyodai.shape.length,e=0;e<8;e++){if(a.length==28)c=1;if(a.length==30)break;for(var f=Math.floor(Math.random()*c)*2+2;f>0;f--)a.push(b[e])}for(c=9;c<42;c++){if(d-a.length<3){if(d!=a.length){a.push(c);a.push(c)}break}a.push(c);a.push(c);a.push(c);a.push(c)}$("#kyodai_remain").html("Remain : "+d);kyodai.remain=d;
-kyodai.setting(a);kyodai.count()};
-kyodai.setting=function(a){var b=[];kyodai.shape=kyodai.random(kyodai.shape);for(i=0;i<kyodai.shape.length;i++){var c=a[i];x=kyodai.shape[i].x;y=kyodai.shape[i].y;(kyodai.block[x+","+y]=c)&&b.push("<img id=Item_"+x+"_"+y+' class ="block_item" src="'+kyodai.getCachedImage(kyodai.scene+"/"+c+".png")+'" style="z-index:'+(100-x+y)+";position:absolute;left:"+x*35+"px;top:"+y*35+'px">')}$("#kyodai_items").html(b.join(""));$(".block_item").click(function(){kyodai.click($(this).position().left,$(this).position().top)});
-$(".block_item").hover(function(){$("#kyodai_hover").css("left",$(this).position().left+"px");$("#kyodai_hover").css("top",$(this).position().top+"px")},function(){$("#kyodai_hover").css("left","-2000px")})};
-kyodai.click=function(a,b){a=Math.ceil(a/35);b=Math.ceil(b/35);if(kyodai.block[a+","+b]){kyodai.sound(2);if(kyodai.point){var c=kyodai.point.x,d=kyodai.point.y,e=c+","+d,f=a+","+b;if(e==f){kyodai.cancel();kyodai.combo=0;kyodai.updatecombo()}else{var j=kyodai.block[e],k=kyodai.block[f];if(j!=k){kyodai.choose(a,b);kyodai.combo=0;kyodai.updatecombo()}else{kyodai.cancel();kyodai.block[e]=0;kyodai.block[f]=0;var l=kyodai.find(c,d,a,b);if(l){$("#kyodai_lines").html(l.join(""));$("#kyodai_lines img").hide();
-$("#kyodai_lines img").fadeIn("fast");$("#kyodai_lines img").fadeOut("fast");kyodai.del(c,d,a,b)}else{kyodai.block[e]=j;kyodai.block[f]=k;kyodai.combo=0;kyodai.updatecombo()}}}}else kyodai.choose(a,b)}};kyodai.choose=function(a,b){$("#kyodai_cuechoose").html("");kyodai.point={x:a,y:b};$("#kyodai_choose").css("left",a*35+"px");$("#kyodai_choose").css("top",b*35+"px")};kyodai.cancel=function(){$("#kyodai_cuechoose").html("");kyodai.point=false;$("#kyodai_choose").css("left","-2000px")};
-kyodai.del=function(a,b,c,d){kyodai.sound(3);kyodai.remain-=2;$("#kyodai_remain").html("Remain : "+kyodai.remain);$("#Item_"+a+"_"+b).fadeOut("fast");$("#Item_"+c+"_"+d).fadeOut("fast");if(kyodai.counts>295){if(kyodai.speed<10)kyodai.speed+=1;kyodai.speedscore=5*kyodai.speed;kyodai.scores+=kyodai.speedscore;kyodai.updatespeed();kyodai.updateupdate(kyodai.speedscore);kyodai.updatescore()}else kyodai.speed=0;if(kyodai.counts>210){kyodai.combo+=1;if(kyodai.combo>kyodai.highestcombo)kyodai.highestcombo=
-kyodai.combo;kyodai.updatecombo();kyodai.scores+=10;kyodai.updateupdate(10);kyodai.updatescore()}else{kyodai.combo=0;kyodai.updatecombo()}kyodai.count();kyodai.remain||setTimeout("kyodai.over('win')",500)};
-kyodai.updatespeed=function(){switch(kyodai.speed){case 1:$("#kyodai_speed").css("color","#66CC00");break;case 3:$("#kyodai_speed").css("color","#3399FF");break;case 5:$("#kyodai_speed").css("color","#7907e0");break;case 7:$("#kyodai_speed").css("color","#FF9933");break;case 9:$("#kyodai_speed").css("color","#FF0000");kyodai.add(3)}$("#kyodai_speed").html("Speed x "+kyodai.speed+"<br/>+ "+kyodai.speedscore+" points");$("#kyodai_speed").fadeIn("slow");$("#kyodai_speed").fadeOut("slow")};
-kyodai.updatecombo=function(){switch(kyodai.highestcombo){case 5:$("#kyodai_combo").css("color","#66CC00");$("#kyodai_board").css("color","#66CC00");break;case 10:$("#kyodai_combo").css("color","#3399FF");$("#kyodai_board").css("color","#3399FF");break;case 15:$("#kyodai_combo").css("color","#7907e0");$("#kyodai_board").css("color","#7907e0");kyodai.add(1);break;case 20:$("#kyodai_combo").css("color","#FF9933");$("#kyodai_board").css("color","#FF9933");kyodai.add(2);break;case 30:$("#kyodai_combo").css("color",
-"#FF0000");$("#kyodai_board").css("color","#FF0000");kyodai.add(3)}$("#kyodai_combo").html("Combo: "+kyodai.combo+" / "+kyodai.highestcombo+" Hits")};kyodai.updatescore=function(){$("#kyodai_scores").html("Scores : "+kyodai.scores)};kyodai.updateupdate=function(a){$("#kyodai_update").html("+"+a+"!");$("#kyodai_update").fadeIn("normal");$("#kyodai_update").fadeOut("normal")};
-kyodai.count=function(){clearInterval(kyodai.timeid);$("#kyodai_count img").attr("src",kyodai.getCachedImage("count1.png"));$("#kyodai_count img").width(328);kyodai.counts=328;kyodai.timeid=setInterval(function(){kyodai.counts-=1;$("#kyodai_count img").width(kyodai.counts);switch(kyodai.counts){case 295:$("#kyodai_count img").attr("src",kyodai.getCachedImage("count2.png"));break;case 210:$("#kyodai_count img").attr("src",kyodai.getCachedImage("count3.png"));break;case 100:$("#kyodai_count img").attr("src",
-kyodai.getCachedImage("count4.png"));break;case 65:$("#kyodai_count img").attr("src",kyodai.getCachedImage("count5.png"));break;case 30:$("#kyodai_count img").attr("src",kyodai.getCachedImage("count6.png"))}kyodai.counts<2&&kyodai.over("gameover")},80)};kyodai.random=function(a){for(var b=[];a.length;)b=b.splice(0,Math.floor(Math.random()*(b.length+1))).concat(a.splice(Math.floor(Math.random()*a.length),1),b);return b};
-kyodai.add=function(a){if(kyodai.pptnum[a])$("#kyodai_ppt_"+a+"_num").attr("src",kyodai.getCachedImage("tool_num_"+ ++kyodai.pptnum[a]+".png"));else{kyodai.pptnum[a]=1;$("#kyodai_ppt").append("<img id=kyodai_ppt_"+a+' src="'+kyodai.getCachedImage("tool"+a+".png")+'">');$("#kyodai_ppt_num").append("<img id=kyodai_ppt_"+a+'_num src="'+kyodai.getCachedImage("tool_num_1.png")+'" onclick="kyodai.use('+a+')">')}};
-kyodai.use=function(a){kyodai.sound(4);kyodai.cancel();if(--kyodai.pptnum[a])$("#kyodai_ppt_"+a+"_num").attr("src",kyodai.getCachedImage("tool_num_"+kyodai.pptnum[a]+".png"));else{$("#kyodai_ppt_"+a).remove();$("#kyodai_ppt_"+a+"_num").remove()}switch(a){case 1:kyodai.cue(false);break;case 2:kyodai.reset();break;case 3:kyodai.cue(true)}};
-kyodai.cue=function(a){for(var b=kyodai.shape,c=kyodai.pptnum[1],d=0;d<b.length;d++)if(c=kyodai.block[b[d].x+","+b[d].y])for(var e=d+1;e<b.length;e++)if(c==kyodai.block[b[e].x+","+b[e].y]){var f=b[d].x,j=b[d].y,k=b[e].x,l=b[e].y,m=kyodai.find(f,j,k,l);if(m){$("#kyodai_cuechoose").html('<img src = "'+kyodai.getCachedImage("choose.png")+'" style="position:absolute;left:'+f*35+"px;top:"+j*35+'px"><img src = "'+kyodai.getCachedImage("choose.png")+'" style="position:absolute;left:'+k*35+"px;top:"+l*35+
-'px">');$("#kyodai_lines").html(m.join(""));$("#kyodai_lines img").fadeOut(1E3);$("#kyodai_cuechoose img").fadeOut(1E3);if(a){$("#kyodai_cuechoose").text("");kyodai.block[f+","+j]=0;kyodai.block[k+","+l]=0;kyodai.del(f,j,k,l)}return}}};kyodai.reset=function(){var a=[];for(var b in kyodai.block)a.push(kyodai.block[b]);kyodai.setting(a)};kyodai.sound=function(a){try{au_sound.GotoFrame(0);au_sound.GotoFrame(a);au_sound.Play()}catch(b){}};
-kyodai.setTotalscores=function(a){kyodai.totalscores+=a;$("#myscore").html(kyodai.totalscores);kyodai.prefs.set("totalscores",kyodai.totalscores)};kyodai.setRecord=function(a){kyodai.record=a;$("#myrecord").html(a);kyodai.prefs.set("record",a)};kyodai.setLevel=function(a){kyodai.level=a;$("#levelimg").attr("src",kyodai.getCachedImage("level"+a+".png"));$("#mylevel").html("Level "+a);kyodai.prefs.set("level",a)};
-kyodai.over=function(a){kyodai.cancel();clearInterval(kyodai.timeid);$("#kyodai_count img").width(0);$("#kyodai_items").html("");$("#kyodai_ppt_num").html("");$("#kyodai_remain").html("");$("#kyodai_scores").html("");$("#kyodai_combo").html("");$("#kyodai_hover").css("left","-2000px");$("#kyodai_choose").css("left","-2000px");$("#kyodai_ppt").html('<img src ="'+kyodai.getCachedImage("notool.png")+'">');document.onkeydown=null;if(a=="win"){a=kyodai.scores;for(var b=0,c=1;c<6;c++)if(kyodai.pptnum[c]>
-0)b+=kyodai.pptnum[c];kyodai.scores+=kyodai.highestcombo*20+b*50;if(kyodai.scores>kyodai.record){kyodai.setRecord(kyodai.scores);$("#kyodai_center").html(kyodai.generateWin(a,kyodai.highestcombo,b,kyodai.scores,true))}else $("#kyodai_center").html(kyodai.generateWin(a,kyodai.highestcombo,b,kyodai.scores,false));$("#kyodai_center").css("background","url("+kyodai.getCachedImage("center_win.png")+") no-repeat");$("#kyodai_center").css("display","block");$("#centerbtn").click(function(){kyodai.start()});
-kyodai.setTotalscores(kyodai.scores);kyodai.totalscores>kyodai.levelscore[kyodai.level+1]&&kyodai.levelup()}else{$("#kyodai_center").html(kyodai.generateOver());$("#kyodai_center").css("background","url("+kyodai.getCachedImage("center.png")+") no-repeat");$("#kyodai_center").css("display","block");$("#centerbtn").click(function(){kyodai.start()})}};
-kyodai.generateWin=function(a,b,c,d,e){html='<div id="centertitle">You Win!</div>          <div id="centerboard" class="scorespan">            <span>Basic: <span class="green">'+a+'</span> x 1</span><br/>            <span>Combo: <span class="green">'+b+'</span> x 20</span><br/>            <span>Props: <span class="green">'+c+'</span> x 50</span><br/>            <hr size="1" noshade="noshade" style="color:#CCC;">            <span>Total scores: <span class="pink">'+d+'</span> points </span><br/>          </div>          <div id="centerbtn">New Game</div>';
-if(e)html+='<div style="position:absolute;left:175px;top:55px;color:#53a9ff;">High<br/>Record<br/> '+kyodai.record+" !</div>";return html};kyodai.generateOver=function(){return html='<div id="centertitle" style="color:#FFF; margin-top:50px;">Game Over</div>          <div id="centerbtn" style="margin-top:30px;">New Game</div>'};kyodai.levelup=function(){kyodai.setLevel(kyodai.level+1)};
-kyodai.cross=function(a,b){for(var c=a-1;c>-1;c--)if(kyodai.block[c+","+b])break;for(var d=a+1;d<kyodai.mapX;d++)if(kyodai.block[d+","+b])break;for(var e=b-1;e>-1;e--)if(kyodai.block[a+","+e])break;for(b=b+1;b<kyodai.mapY;b++)if(kyodai.block[a+","+b])break;return{x1:c,x2:d,y1:e,y2:b}};kyodai.passx=function(a,b,c){if(a<b)for(;++a<b;){if(kyodai.block[a+","+c])return false}else for(;++b<a;)if(kyodai.block[b+","+c])return false;return true};
-kyodai.passy=function(a,b,c){if(a<b)for(;++a<b;){if(kyodai.block[c+","+a])return false}else for(;++b<a;)if(kyodai.block[c+","+b])return false;return true};kyodai.linex=function(a,b,c){var d=[];if(a<b)for(;a++<b;)d.push('<img src="'+kyodai.getCachedImage("linex.png")+'" style="position:absolute;left:'+(a*35-17)+"px;top:"+c*35+'px"/>');else for(;b++<a;)d.push('<img src="'+kyodai.getCachedImage("linex.png")+'"  style="position:absolute;left:'+(b*35-17)+"px;top:"+c*35+'px"/>');return d};
-kyodai.liney=function(a,b,c){var d=[];if(a<b)for(;a++<b;)d.push('<img src="'+kyodai.getCachedImage("liney.png")+'" style="position:absolute;left:'+c*35+"px;top:"+(a*35-17)+'px"/>');else for(;b++<a;)d.push('<img src="'+kyodai.getCachedImage("liney.png")+'" style="position:absolute;left:'+c*35+"px;top:"+(b*35-17)+'px"/>');return d};
-kyodai.find=function(a,b,c,d){var e=kyodai.cross(a,b);if(b==d&&e.x1<c&&c<e.x2)return kyodai.linex(a,c,b);if(a==c&&e.y1<d&&d<e.y2)return kyodai.liney(b,d,a);var f=kyodai.cross(c,d),j=e.x1<f.x1?f.x1:e.x1,k=e.x2>f.x2?f.x2:e.x2,l=e.y1<f.y1?f.y1:e.y1;e=e.y2>f.y2?f.y2:e.y2;if(j<a&&a<k&&l<d&&d<e)return kyodai.liney(b,d,a).concat(kyodai.linex(a,c,d));if(j<c&&c<k&&l<b&&b<e)return kyodai.liney(b,d,c).concat(kyodai.linex(a,c,b));if(a<c){f=a;var m=c,h=b,o=d}else{f=c;m=a;h=d;o=b}for(var g=f+1;g<m;g++)if(j<g&&
-g<k&&kyodai.passy(h,o,g))return kyodai.liney(h,o,g).concat(kyodai.linex(f,g,h),kyodai.linex(g,m,o));if(b<d){g=b;var n=d,p=a,q=c}else{g=d;n=b;p=c;q=a}for(h=g+1;h<n;h++)if(l<h&&h<e&&kyodai.passx(p,q,h))return kyodai.linex(p,q,h).concat(kyodai.liney(g,h,p),kyodai.liney(h,n,q));for(q=p=o=h=true;h||o||p||q;){if(h)if(j<--f&&f<k){if(kyodai.passy(b,d,f))return kyodai.liney(b,d,f).concat(kyodai.linex(f,a,b),kyodai.linex(f,c,d))}else h=false;if(o)if(j<++m&&m<k){if(kyodai.passy(b,d,m))return kyodai.liney(b,
-d,m).concat(kyodai.linex(m,a,b),kyodai.linex(m,c,d))}else o=false;if(p)if(l<--g&&g<e){if(kyodai.passx(a,c,g))return kyodai.linex(a,c,g).concat(kyodai.liney(g,b,a),kyodai.liney(g,d,c))}else p=false;if(q)if(l<++n&&n<e){if(kyodai.passx(a,c,n))return kyodai.linex(a,c,n).concat(kyodai.liney(n,b,a),kyodai.liney(n,d,c))}else q=false}return false};
+// Copyright 2009 DW Inc.
+// All Rights Reserved.
+
+/**
+ * @fileoverview kyodai.js is a library of of classes and utilies that
+ * are used in kyodai game.
+ * @author hyramduke@google.com (Hyram Duke)
+ */
+
+// Namespace assigned to this library of kyodai-related classes
+var kyodai = {mapX:19, mapY:11, mapLength:14};
+
+//kyodai.area = 'private';
+kyodai.area = 'public';
+kyodai.imageshost = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
+kyodai.scene = 'tooth';
+kyodai.totalscores = 0;
+kyodai.record = 0;
+kyodai.level = 0;
+kyodai.levelscore = [0,10000,30000,100000,200000,350000,500000,1000000];
+
+/**
+ * get Cached Image
+ */ 
+kyodai.getCachedImage =	function(src) {
+  if (kyodai.area == 'public'){
+    return _IG_GetImageUrl(kyodai.imageshost+src);
+    //return kyodai.imageshost+src;
+  }
+  else{
+    return ('images/' + src);
+  }
+}
+
+/**
+ * get Total Scores
+ */ 
+kyodai.getTotalscores = function()
+{
+  kyodai.totalscores = kyodai.prefs.getInt("totalscores");
+  $("#myscore").html(kyodai.totalscores);
+}
+
+/**
+ * get Record
+ */ 
+kyodai.getRecord = function()
+{
+  kyodai.record = kyodai.prefs.getInt("record");
+  $("#myrecord").html(kyodai.record);
+}
+
+/**
+ * get Level
+ */ 
+kyodai.getLevel = function()
+{
+  kyodai.level = kyodai.prefs.getInt("level");
+  $("#levelimg").attr('src', kyodai.getCachedImage('level'+kyodai.level+'.png'));
+  $("#mylevel").html("Level " + kyodai.level);
+}
+
+/**
+ * preload the pics of blocks
+ */ 
+kyodai.preload = function()
+{
+  $("#kyodai_game").attr('src', kyodai.getCachedImage('game1.jpg'));
+  $("#kyodai_choose").attr('src', kyodai.getCachedImage('choose.png'));
+  $("#kyodai_hover").attr('src', kyodai.getCachedImage('choose.png'));
+  $("#kyodai_count img").attr('src', kyodai.getCachedImage('count.png'));
+  $("#kyodai_ppt img").attr('src', kyodai.getCachedImage('notool.png'));
+  $("#levelimg").attr('src', kyodai.getCachedImage('level0.png'));
+  
+  if (kyodai.area == 'public'){
+    kyodai.prefs = new _IG_Prefs();
+    kyodai.getTotalscores();
+    kyodai.getRecord();
+    kyodai.getLevel();
+  }
+
+  
+}
+
+/**
+ * Game start
+ */
+kyodai.start = function()
+{
+  $("#kyodai_scores").html("");
+  $("#kyodai_combo").html("");
+  $("#kyodai_combo").css("color","#CCC");
+  $("#kyodai_board").css("color","#CCC");
+  $("#kyodai_center").css("display","none");
+  kyodai.sound(1);
+  kyodai.cancel();
+  kyodai.pptnum = {1:3, 2:3};
+  // Tools images
+  $("#kyodai_ppt").html('<img id=kyodai_ppt_1 src ="'+ kyodai.getCachedImage('tool1.png') +'">'+'<img id=kyodai_ppt_2 src ="'+ kyodai.getCachedImage('tool2.png') +'">');
+  $("#kyodai_ppt_num").html('<img id=kyodai_ppt_1_num src ="'+ kyodai.getCachedImage('tool_num_3.png') +'">'+'<img id=kyodai_ppt_2_num src ="'+ kyodai.getCachedImage('tool_num_3.png') +'">');
+    
+  $("#kyodai_ppt_1_num").click(function() {
+    kyodai.use(1);
+  });
+  $("#kyodai_ppt_2_num").click(function() {
+    kyodai.use(2);
+  });
+  // shortcuts
+  document.onkeydown = function()
+  {
+    if (event.keyCode==49 && kyodai.pptnum[1]) kyodai.use(1);
+    if (event.keyCode==50 && kyodai.pptnum[2]) kyodai.use(2);
+  };
+  
+  kyodai.scores = 0;
+  kyodai.combo = 0;
+  kyodai.speed = 0;
+  kyodai.highestcombo = 0;
+  kyodai.counts = 0;
+  kyodai.loadmap(Math.floor(Math.random()*kyodai.mapLength));
+}
+
+/**
+ * load the game map
+ * @param {string} mapnum The url of the game map.
+ */  
+kyodai.loadmap = function(mapnum)
+{
+  kyodai.block = {};
+  kyodai.shape = [];
+  var map = ['1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1',
+             '-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-\n1-1-1-1-1-1-1-1-1-1\n-1-1-1-1-1-1-1-1-1-',
+             '1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1',
+             '-------------------\n----11111-11111----\n---111111-111111---\n--111111---111111--\n-111111-----111111-\n-------------------\n-111111-----111111-\n--111111---111111--\n---111111-111111---\n----11111-11111----\n-------------------',
+             '---1-----1-----1---\n--111---111---111--\n-11111-11111-11111-\n--111---111---111--\n---1-----1-----1---\n-------------------\n-11-11-11-11-11-11-\n-1---1-1---1-1---1-\n---1-----1-----1---\n-1---1-1---1-1---1-\n-11-11-11-11-11-11-',
+             '11--1--11111--1--11\n1--1--1-----1--1--1\n1-1--1--111--1--1-1\n1-1-1--1---1--1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1-1-----1-1-1-1\n1-1-1--1---1--1-1-1\n1-1--1--111--1--1-1\n1--1--1-----1--1--1\n11--1--11111--1--11',
+             '-1----111-111----1-\n-11---111-111---11-\n--11---11111---11--\n---11---111---11---\n1---11---1---11---1\n11---11-----11---11\n1---11---1---11---1\n---11---111---11---\n--11---11111---11--\n-11---111-111---11-\n-1----111-111----1-',
+             '11111---------11111\n111111-------111111\n-111111-----111111-\n--11111-----11111--\n-------------------\n-------------------\n-111-1-1-1-1-1-111-\n---1-1-1-1-1-1-1---\n---11-1-1-1-1-11---\n----11111111111----\n---------1---------',
+             '1111111111111111111\n1-----------------1\n1-111111111111111-1\n1-1-------------1-1\n1-1-1111111111--1-1\n1-1-1-----------1-1\n1-1-1111111111111-1\n1-1---------------1\n1-11111111111111111\n1------------------\n1111111111111111111',
+             '-------------------\n---1--1111111--1---\n--11-1111-1111-11--\n-111-111---111-111-\n-111-11-----11-111-\n-1-1-11-----11-1-1-\n-111-11-----11-111-\n-111-111---111-111-\n--11-1111-1111-11--\n---1--1111111--1---\n-------------------',
+             '---111111111111111-\n--11111111111111111\n--11---------------\n--11--1111111111---\n--11--11111111111--\n--11-----------11--\n--11111111111--11--\n---1111111111--11--\n---------------11--\n11111111111111111--\n-111111111111111---',
+             '---1111111111111111\n-1-11----1---1--1-1\n1--11----1---1--1-1\n1-111----1---1--1-1\n11111----1---1--1-1\n-111111111111111111\n11111----1---1--1-1\n1-111----1---1--1-1\n1--11----1---1--1-1\n-1-11----1---1--1-1\n---1111111111111111',
+             '---11-------1111---\n--1111-----111111--\n-111111---11111111-\n11-11-11---111111--\n---11-------1111---\n---11--------11----\n--1111----11111111-\n-111111---11111111-\n11111111-----11----\n-111111------11----\n--1111-------11----',
+             '1-------111-------1\n-1-111111-111111-1-\n--111-111-111-111--\n--11--111-111--11--\n--11-111---111-11--\n-------------------\n--11-111---111-11--\n--11--111-111--11--\n--111-111-111-111--\n-1-111111-111111-1-\n1-------111-------1'];
+  var blocks = map[mapnum].split("\n");
+  blen = blocks.length;
+  bxlen = blocks[0].length;
+  for(var x=0; x<blen; x++)
+  {
+    bx = blocks[x];
+    for(var y=0; y<bxlen; y++)
+    {
+      if (bx.charAt(y) == "1")
+      {
+        kyodai.shape.push({x:y, y:x});
+      }
+    }
+  }
+  var items = [];
+  var itemppt = kyodai.random([1, 2, 3, 4, 5, 6, 7, 8]);
+  var n = 2;
+  var num = kyodai.shape.length;
+  for (var i=0; i<8; i++)
+  {
+    if (items.length==28) n=1;
+    if (items.length==30) break;
+    for (var j=Math.floor(Math.random()*n)*2+2; j>0; j--)
+    {
+      items.push(itemppt[i]);
+    }
+  }
+  
+  for (n=9; n<42; n++)
+  {
+    if (num-items.length < 3)
+    {
+      if (num == items.length) break;
+      else
+      {
+        items.push(n);
+        items.push(n);
+        break;
+      }
+    }
+    items.push(n);
+    items.push(n);
+    items.push(n);
+    items.push(n);
+  }
+  $("#kyodai_remain").html('Remain : ' + num);
+  kyodai.remain = num;
+  kyodai.setting(items);
+  kyodai.count();
+}
+
+/**
+ * load the pics of blocks
+ * @param {array} The array of blocks.
+ */ 
+kyodai.setting = function(arr)
+{
+  var itemImg = [];
+  kyodai.shape = kyodai.random(kyodai.shape);
+  for (i=0; i<kyodai.shape.length; i++)
+  {
+    var Img = arr[i];
+    x = kyodai.shape[i].x;
+    y = kyodai.shape[i].y;
+    kyodai.block[x+","+y] = Img;
+    if (Img)
+    {
+      itemImg.push('<img id=Item_'+x+'_'+y+' class ="block_item" src="'+ kyodai.getCachedImage(kyodai.scene+'/'+ Img + '.png')+'" style="z-index:'+ (100-x+y) +';position:absolute;left:'+ x*35 +'px;top:'+ y*35 +'px">');
+    }
+  }
+  $("#kyodai_items").html(itemImg.join(""));
+  
+  $(".block_item").click(function() {
+    kyodai.click($(this).position().left, $(this).position().top);
+	});
+  $(".block_item").hover(
+    function () {
+      $("#kyodai_hover").css("left",($(this).position().left) + "px");
+      $("#kyodai_hover").css("top",($(this).position().top) + "px");
+    }, 
+    function () {
+      $("#kyodai_hover").css("left","-2000px");
+    }
+	);
+}
+
+/**
+ * mouse click
+ * @param {event} event mouse click event.
+ */ 
+kyodai.click = function(x,y)
+{
+  var ex = Math.ceil(x / 35);
+  var ey = Math.ceil(y / 35);
+  if (!kyodai.block[ex+","+ey]) return;
+  kyodai.sound(2);
+  if (!kyodai.point)
+  {
+    // click at the first time
+    kyodai.choose(ex, ey);
+    return;
+  }
+  var sx = kyodai.point.x;
+  var sy = kyodai.point.y;
+  var s = sx+","+sy;
+  var e = ex+","+ey;
+  if (s == e)
+  {
+    // click the same one twice
+    kyodai.cancel();
+    kyodai.combo = 0;
+    kyodai.updatecombo();
+    return;
+  }
+  var ss = kyodai.block[s];
+  var ee = kyodai.block[e];
+  if (ss != ee)
+  {
+    // choose unmatch
+    kyodai.choose(ex, ey);
+    kyodai.combo = 0;
+    kyodai.updatecombo();
+    return;
+  }
+  kyodai.cancel();
+  kyodai.block[s] = 0;
+  kyodai.block[e] = 0;
+  var line = kyodai.find(sx, sy, ex, ey);
+  if (!line)
+  {
+    // can't connect
+    kyodai.block[s] = ss;
+    kyodai.block[e] = ee;
+    kyodai.combo = 0;
+    kyodai.updatecombo();
+    return;
+  }
+
+  $("#kyodai_lines").html(line.join(""));
+  $("#kyodai_lines img").hide();
+  $("#kyodai_lines img").fadeIn("fast");
+  $("#kyodai_lines img").fadeOut("fast");
+  kyodai.del(sx, sy, ex, ey);
+}
+
+/**
+ * choose one block
+ * @param {number} x The x.
+ * @param {number} y The y.
+ */ 
+kyodai.choose = function(x, y)
+{
+  $("#kyodai_cuechoose").html("");
+  kyodai.point = {x:x, y:y};
+  $("#kyodai_choose").css("left",( x * 35) + "px");
+  $("#kyodai_choose").css("top",(y * 35) + "px");
+}
+
+/**
+ * unchoose one block
+ */ 
+kyodai.cancel = function()
+{
+  $("#kyodai_cuechoose").html("");
+  kyodai.point = false;
+  $("#kyodai_choose").css("left","-2000px");
+}
+
+/**
+ * delete the chose pair
+ */ 
+kyodai.del = function(sx,sy,ex,ey)
+{
+  kyodai.sound(3);
+  kyodai.remain -= 2;
+  $("#kyodai_remain").html('Remain : ' + kyodai.remain);
+  $("#Item_"+sx+"_"+sy).fadeOut("fast");
+  $("#Item_"+ex+"_"+ey).fadeOut("fast");
+  
+  if(kyodai.counts > 295){
+    if (kyodai.speed < 10){
+      kyodai.speed += 1;
+    }
+    kyodai.speedscore = 5 * kyodai.speed;
+    kyodai.scores += kyodai.speedscore;
+    kyodai.updatespeed();
+    kyodai.updateupdate(kyodai.speedscore);
+    kyodai.updatescore();
+  }
+  else{
+    kyodai.speed = 0;
+  }
+  
+  if(kyodai.counts > 210){
+    kyodai.combo += 1;
+    if(kyodai.combo > kyodai.highestcombo){
+      kyodai.highestcombo = kyodai.combo;
+    }
+    kyodai.updatecombo();
+    kyodai.scores += 10;
+    kyodai.updateupdate(10);
+    kyodai.updatescore();
+  }
+  else{
+    kyodai.combo = 0;
+    kyodai.updatecombo();
+  }
+  
+  kyodai.count();
+  // win
+  if (!kyodai.remain) setTimeout("kyodai.over('win')",500);
+}
+
+/**
+ * update combo counts
+ */
+kyodai.updatespeed = function()
+{
+  switch (kyodai.speed)
+  {
+    case 1 : $("#kyodai_speed").css("color","#66CC00"); 
+    break;
+    case 3 : $("#kyodai_speed").css("color","#3399FF");
+    break;
+    case 5 : $("#kyodai_speed").css("color","#7907e0");
+    break;
+    case 7 : $("#kyodai_speed").css("color","#FF9933");
+    break;
+    case 9 : $("#kyodai_speed").css("color","#FF0000");kyodai.add(3);
+  }
+  $("#kyodai_speed").html('Speed x ' + kyodai.speed + '<br/>+ ' + (kyodai.speedscore) + ' points');
+  $("#kyodai_speed").fadeIn("slow");
+  $("#kyodai_speed").fadeOut("slow");
+}
+
+/**
+ * update combo counts
+ */
+kyodai.updatecombo = function()
+{
+  switch (kyodai.highestcombo)
+  {
+    case 5 : $("#kyodai_combo").css("color","#66CC00"); $("#kyodai_board").css("color","#66CC00");
+    break;
+    case 10 : $("#kyodai_combo").css("color","#3399FF"); $("#kyodai_board").css("color","#3399FF");
+    break;
+    case 15 : $("#kyodai_combo").css("color","#7907e0"); $("#kyodai_board").css("color","#7907e0"); kyodai.add(1);
+    break;
+    case 20 : $("#kyodai_combo").css("color","#FF9933"); $("#kyodai_board").css("color","#FF9933"); kyodai.add(2);
+    break;
+    case 30 : $("#kyodai_combo").css("color","#FF0000"); $("#kyodai_board").css("color","#FF0000"); kyodai.add(3);
+  }
+  $("#kyodai_combo").html('Combo: ' + kyodai.combo + ' / ' + kyodai.highestcombo + ' Hits');
+}
+
+/**
+ * update scores
+ */
+kyodai.updatescore = function()
+{
+  $("#kyodai_scores").html('Scores : ' + kyodai.scores);
+}
+
+/**
+ * update update
+ */
+kyodai.updateupdate = function(num)
+{
+  $("#kyodai_update").html('+' + num + '!');
+  $("#kyodai_update").fadeIn("normal");
+  $("#kyodai_update").fadeOut("normal");
+}
+
+/**
+ * count down
+ */
+kyodai.count = function()
+{
+  clearInterval(kyodai.timeid);
+  $("#kyodai_count img").attr("src",kyodai.getCachedImage('count1.png'));
+  $("#kyodai_count img").width(328);
+  kyodai.counts = 328;
+  kyodai.timeid = setInterval(function()
+  {
+    kyodai.counts -= 1;
+    $("#kyodai_count img").width(kyodai.counts);
+    switch (kyodai.counts)
+    {
+      // timing bar
+      case 295 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count2.png'));
+      break;
+      case 210 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count3.png'));
+      break;
+      case 100 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count4.png'));
+      break;
+      case  65 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count5.png'));
+      break;
+      case  30 : $("#kyodai_count img").attr("src",kyodai.getCachedImage('count6.png'));
+    }
+    if (kyodai.counts < 2)
+    {
+      // Times up
+      kyodai.over('gameover');
+    }
+  }
+  , 80)
+}
+
+/**
+ * random the arr
+ */
+kyodai.random = function(arr)
+{
+  var rnd = [];
+  while (arr.length)
+  {
+    rnd=rnd.splice(0,Math.floor(Math.random()*(rnd.length+1))).concat(arr.splice(Math.floor(Math.random()*arr.length),1),rnd);
+  }
+  return rnd;
+}
+
+/**
+ * add the toolkit
+ */
+kyodai.add = function(id)
+{
+  if (kyodai.pptnum[id])
+  {
+    $("#kyodai_ppt_"+id+"_num").attr("src",kyodai.getCachedImage('tool_num_'+ ++kyodai.pptnum[id] +'.png'));
+  }
+  else
+  {
+    kyodai.pptnum[id] = 1
+    $("#kyodai_ppt").append('<img id=kyodai_ppt_'+id+' src="'+kyodai.getCachedImage('tool'+ id +'.png')+'">');
+    $("#kyodai_ppt_num").append('<img id=kyodai_ppt_'+id+'_num src="'+kyodai.getCachedImage('tool_num_1.png')+'" onclick="kyodai.use('+id+')">');
+  }
+}
+
+/**
+ * use the toolkit
+ */
+kyodai.use = function(id)
+{
+  kyodai.sound(4);
+  kyodai.cancel();
+  if (--kyodai.pptnum[id])
+  {
+    $("#kyodai_ppt_"+id+"_num").attr("src",kyodai.getCachedImage('tool_num_'+ kyodai.pptnum[id] +'.png'));
+  }
+  else
+  {
+    $("#kyodai_ppt_"+id).remove();
+    $("#kyodai_ppt_"+id+"_num").remove();
+  }
+  switch (id)
+  {
+    // suggest
+    case 1 : kyodai.cue(false);
+    break;
+    // reset
+    case 2 : kyodai.reset();
+    break;
+    // bomb
+    case 3 : kyodai.cue(true);
+  }
+}
+
+/**
+ * Tookit cue
+ */
+kyodai.cue = function(isbomb)
+{
+  var s = kyodai.shape;
+  var n = kyodai.pptnum[1];
+  for (var i=0; i<s.length; i++)
+  {
+    n = kyodai.block[s[i].x+","+s[i].y];
+    if (n)
+    {
+      for (var j=i+1; j<s.length; j++)
+      {
+        if (n == kyodai.block[s[j].x+","+s[j].y])
+        {
+          var sx = s[i].x;
+          var sy = s[i].y;
+          var ex = s[j].x;
+          var ey = s[j].y;
+          var line = kyodai.find(sx, sy, ex, ey);
+          if (line)
+          {
+            $("#kyodai_cuechoose").html('<img src = "'+ kyodai.getCachedImage('choose.png') +'" style="position:absolute;left:'+ (sx*35) +'px;top:'+ sy*35 +'px">'
+            + '<img src = "'+ kyodai.getCachedImage('choose.png') +'" style="position:absolute;left:'+ (ex*35) +'px;top:'+ ey*35 +'px">');
+            $("#kyodai_lines").html(line.join(""));
+            $("#kyodai_lines img").fadeOut(1000);
+            $("#kyodai_cuechoose img").fadeOut(1000);
+            if (isbomb)
+            {
+              $("#kyodai_cuechoose").text("");
+              kyodai.block[sx+","+sy] = 0;
+              kyodai.block[ex+","+ey] = 0;
+              kyodai.del(sx, sy, ex, ey);
+            }
+            return
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Reset the game
+ */
+kyodai.reset = function()
+{
+  var blocks = [];
+  for (var i in kyodai.block)
+  {
+    blocks.push(kyodai.block[i]);
+  }
+  kyodai.setting(blocks);
+}
+
+/**
+ * Background sonund
+ */
+kyodai.sound = function(id)
+{
+  try{
+    au_sound.GotoFrame(0);
+    au_sound.GotoFrame(id);
+    au_sound.Play();
+  }
+  catch(err){}
+}
+
+/**
+ * set Total Scores
+ */ 
+kyodai.setTotalscores = function(n)
+{
+  kyodai.totalscores += n;
+  $("#myscore").html(kyodai.totalscores);
+  kyodai.prefs.set("totalscores", kyodai.totalscores);
+}
+
+/**
+ * set Record
+ */ 
+kyodai.setRecord = function(r)
+{
+  kyodai.record = r;
+  $("#myrecord").html(r);
+  kyodai.prefs.set("record", r);
+}
+
+/**
+ * set Level
+ */ 
+kyodai.setLevel = function(l)
+{
+  kyodai.level = l;
+  $("#levelimg").attr('src', kyodai.getCachedImage('level'+l+'.png'));
+  $("#mylevel").html("Level " + l);
+  kyodai.prefs.set("level", l);
+}
+
+/**
+ * Game Over
+ */
+kyodai.over = function(type)
+{
+  kyodai.cancel();
+  clearInterval(kyodai.timeid);
+  $("#kyodai_count img").width(0);
+  $("#kyodai_items").html("");
+  $("#kyodai_ppt_num").html("");
+  $("#kyodai_remain").html("");
+  $("#kyodai_scores").html("");
+  $("#kyodai_combo").html("");
+  $("#kyodai_hover").css("left","-2000px");
+  $("#kyodai_choose").css("left","-2000px");
+  $("#kyodai_ppt").html('<img src ="'+ kyodai.getCachedImage('notool.png') +'">');
+  document.onkeydown = null;
+
+  if(type == 'win'){
+    var basic = kyodai.scores;
+    var props = 0;
+    for (var i=1; i<6; i++){
+      if(kyodai.pptnum[i]>0){
+        props += kyodai.pptnum[i];
+      }
+    }
+    kyodai.scores += kyodai.highestcombo*20 + props*50;
+    if (kyodai.scores > kyodai.record){
+      kyodai.setRecord(kyodai.scores);
+      $("#kyodai_center").html(kyodai.generateWin(basic,kyodai.highestcombo,props,kyodai.scores,true));
+    }
+    else{
+      $("#kyodai_center").html(kyodai.generateWin(basic,kyodai.highestcombo,props,kyodai.scores,false));
+    }
+    $("#kyodai_center").css('background','url'+'('+ kyodai.getCachedImage('center_win.png') +') no-repeat');
+    $("#kyodai_center").css("display","block");
+    $("#centerbtn").click(function() {
+		  kyodai.start();
+	  });
+    kyodai.setTotalscores(kyodai.scores);
+    if (kyodai.totalscores > kyodai.levelscore[kyodai.level+1]){
+      kyodai.levelup();
+    }
+  }
+  else{
+    $("#kyodai_center").html(kyodai.generateOver());
+    $("#kyodai_center").css('background','url'+'('+ kyodai.getCachedImage('center.png')+') no-repeat');
+    $("#kyodai_center").css("display","block");
+    $("#centerbtn").click(function() {
+		  kyodai.start();
+	  });
+  }
+}
+
+/**
+ * Generate Win Html
+ */
+kyodai.generateWin = function(basic,highestcombo,props,scores,record)
+{
+  html = '<div id="centertitle">You Win!</div>\
+          <div id="centerboard" class="scorespan">\
+            <span>Basic: <span class="green">' + basic + '</span> x 1</span><br/>\
+            <span>Combo: <span class="green">' + highestcombo + '</span> x 20</span><br/>\
+            <span>Props: <span class="green">' + props + '</span> x 50</span><br/>\
+            <hr size="1" noshade="noshade" style="color:#CCC;">\
+            <span>Total scores: <span class="pink">' + scores + '</span> points </span><br/>\
+          </div>\
+          <div id="centerbtn">New Game</div>';
+  
+  if (record){
+    html += '<div style="position:absolute;left:175px;top:55px;color:#53a9ff;">High<br/>Record<br/> ' + kyodai.record + ' !</div>';    
+  }
+
+  return html;
+}
+
+/**
+ * Generate Over Html
+ */
+kyodai.generateOver = function()
+{
+  html = '<div id="centertitle" style="color:#FFF; margin-top:50px;">Game Over</div>\
+          <div id="centerbtn" style="margin-top:30px;">New Game</div>';
+  
+  return html;
+}
+
+/**
+ * Level up
+ */
+kyodai.levelup = function()
+{
+  kyodai.setLevel(kyodai.level + 1);
+}
+
+/**
+ * draw the cross from a point in the map
+ * @param {Number} x The x coordinate of the point.
+ * @param {Number} y The y coordinate of the point.
+ * @return {Number} The cross.
+ */   
+kyodai.cross = function(x, y)
+{
+  for (var x1=x-1; x1>-1; x1--)
+    if (kyodai.block[x1+ "," +y]) break;
+
+  for (var x2=x+1; x2<kyodai.mapX; x2++)
+    if (kyodai.block[x2+ "," +y]) break;
+
+  for (var y1=y-1; y1>-1; y1--)
+    if (kyodai.block[x+ "," +y1]) break;
+
+  for (var y2=y+1; y2<kyodai.mapY; y2++)
+    if (kyodai.block[x+ "," +y2]) break;
+
+  return {x1:x1, x2:x2, y1:y1, y2:y2};
+}
+
+/**
+ * determine whether two blocks could be connected in x direction
+ * @param {Number} x1 The x coordinate of first point.
+ * @param {Number} x2 The x coordinate of second point.
+ * @param {Number} y The y coordinate of these two point.
+ * @return {boolean} True or False.
+ */  
+kyodai.passx = function(x1,x2,y)
+{
+  if (x1 < x2){
+    while (++x1 < x2)
+      if (kyodai.block[x1+ "," +y]) return false;
+  }
+  else{
+    while (++x2 < x1)
+      if (kyodai.block[x2+ "," +y]) return false;
+  }
+  return true;
+}
+
+/**
+ * determine whether two blocks could be connected in y direction
+ * @param {Number} y1 The y coordinate of first point.
+ * @param {Number} y2 The y coordinate of second point.
+ * @param {Number} x The x coordinate of these two point.
+ * @return {boolean} True or False.
+ */  
+kyodai.passy = function(y1,y2,x)
+{
+  if (y1 < y2){
+    while (++y1 < y2)
+      if (kyodai.block[x+ "," +y1]) return false;
+  }
+  else{
+    while (++y2 < y1)
+      if (kyodai.block[x+ "," +y2]) return false;
+  }
+  return true;
+}
+
+/**
+ * draw the line between two blocks in x direction
+ * @param {Number} x1 The x coordinate of first point.
+ * @param {Number} x2 The x coordinate of second point.
+ * @param {Number} y The y coordinate of these two point.
+ * @return {array} the path.
+ */  
+kyodai.linex = function(x1, x2, y)
+{
+  var path = [];
+  if (x1 < x2)
+  {
+    while (x1++ < x2)
+    path.push('<img src="'+kyodai.getCachedImage('linex.png')+'" style="position:absolute;left:'+(x1*35-17)+'px;top:'+y*35+'px"/>');
+  }
+  else
+  {
+    while (x2++ < x1)
+    path.push('<img src="'+kyodai.getCachedImage('linex.png')+'"  style="position:absolute;left:'+(x2*35-17)+'px;top:'+y*35+'px"/>');
+  }
+  return path;
+}
+
+/**
+ * draw the line between two blocks in y direction
+ * @param {Number} y1 The y coordinate of first point.
+ * @param {Number} y2 The y coordinate of second point.
+ * @param {Number} x The x coordinate of these two point.
+ * @return {array} the path.
+ */  
+kyodai.liney = function(y1, y2, x)
+{
+  var path = [];
+  if (y1 < y2)
+  {
+    while (y1++ < y2)
+    path.push('<img src="'+kyodai.getCachedImage('liney.png')+'" style="position:absolute;left:'+x*35+'px;top:'+(y1*35-17)+'px"/>');
+  }
+  else
+  {
+    while (y2++ < y1)
+    path.push('<img src="'+kyodai.getCachedImage('liney.png')+'" style="position:absolute;left:'+x*35+'px;top:'+(y2*35-17)+'px"/>');
+  }
+  return path;
+}
+
+/**
+ * find the way that connect two blocks
+ * @param {Number} sx The x coordinate of first point.
+ * @param {Number} sy The y coordinate of first point.
+ * @param {Number} ex The x coordinate of second point.
+ * @param {Number} ey The y coordinate of second point.
+ * @return {array} the path.
+ */  
+kyodai.find = function(sx,sy,ex,ey)
+{
+  // draw cross from first point
+  var s = kyodai.cross(sx, sy);
+  // if the cross of first point passes the second point
+  if (sy==ey && s.x1<ex && ex<s.x2) return kyodai.linex(sx, ex, sy);
+  if (sx==ex && s.y1<ey && ey<s.y2) return kyodai.liney(sy, ey, sx);
+  // draw cross from first point
+  var e = kyodai.cross(ex, ey);
+  // if the cross of first point passes the cross of second point
+  var x1 = s.x1 < e.x1 ? e.x1 : s.x1;
+  var x2 = s.x2 > e.x2 ? e.x2 : s.x2;
+  var y1 = s.y1 < e.y1 ? e.y1 : s.y1;
+  var y2 = s.y2 > e.y2 ? e.y2 : s.y2;
+  // if the cross of second point passes the first point
+  if (x1<sx && sx<x2 && y1<ey && ey<y2)
+    return kyodai.liney(sy, ey, sx).concat(kyodai.linex(sx, ex, ey));
+  if (x1<ex && ex<x2 && y1<sy && sy<y2)
+    return kyodai.liney(sy, ey, ex).concat(kyodai.linex(sx, ex, sy));
+  // if the cross of two points in the same line in x direction
+  if (sx < ex)
+  {
+    var x3 = sx;
+    var x4 = ex;
+    var s1 = sy;
+    var e1 = ey;
+  }
+  else
+  {
+    var x3 = ex;
+    var x4 = sx;
+    var s1 = ey;
+    var e1 = sy;
+  }
+  for (var x=x3+1; x<x4; x++)
+  {
+    if (x1<x && x<x2 && kyodai.passy(s1, e1, x))
+    {
+      return kyodai.liney(s1, e1, x).concat(kyodai.linex(x3, x, s1), kyodai.linex(x, x4, e1));
+    }
+  }
+  // if the cross of two points in the same line in y direction
+  if (sy < ey)
+  {
+    var y3 = sy;
+    var y4 = ey;
+    var s2 = sx;
+    var e2 = ex;
+  }
+  else
+  {
+    var y3 = ey;
+    var y4 = sy;
+    var s2 = ex;
+    var e2 = sx;
+  }
+  for (var y=y3+1; y<y4; y++)
+  {
+    if (y1<y && y<y2 && kyodai.passx(s2, e2, y))
+    {
+      return kyodai.linex(s2, e2, y).concat(kyodai.liney(y3, y, s2), kyodai.liney(y, y4, e2));
+    }
+  }
+  s1 = true;
+  e1 = true;
+  s2 = true;
+  e2 = true;
+  // spread the rectangle composed by the cross of two points
+  while (s1 || e1 || s2 || e2)
+  {
+    if (s1)
+    {
+      if (x1 < --x3 && x3 < x2)
+      {
+        if (kyodai.passy(sy, ey, x3))
+        {
+          return kyodai.liney(sy, ey, x3).concat(kyodai.linex(x3, sx, sy), kyodai.linex(x3, ex, ey));
+        }
+      }
+      else s1 = false;
+    }
+    if (e1)
+    {
+      if (x1 < ++x4 && x4 < x2)
+      {
+        if (kyodai.passy(sy, ey, x4))
+        {
+          return kyodai.liney(sy, ey, x4).concat(kyodai.linex(x4, sx, sy), kyodai.linex(x4, ex, ey));
+        }
+      }
+      else e1 = false;
+    }
+    if (s2)
+    {
+      if (y1 < --y3 && y3 < y2)
+      {
+        if (kyodai.passx(sx, ex, y3))
+        {
+          return kyodai.linex(sx, ex, y3).concat(kyodai.liney(y3, sy, sx), kyodai.liney(y3, ey, ex));
+        }
+      }
+      else s2 = false;
+    }
+    if (e2)
+    {
+      if (y1 < ++y4 && y4 < y2)
+      {
+        if (kyodai.passx(sx, ex, y4))
+        {
+          return kyodai.linex(sx, ex, y4).concat(kyodai.liney(y4, sy, sx), kyodai.liney(y4, ey, ex));
+        }
+      }
+      else e2 = false;
+    }
+  }
+  return false;
+}
