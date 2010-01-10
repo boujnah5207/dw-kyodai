@@ -7,7 +7,7 @@ body { margin:0;font:bold 11px Tahoma;}
 #kyodai_choose{position:absolute;left:-999px;z-index:1 !important; /*Style for FF*/ z-index:-1;/* for IE */}
 #kyodai_hover{position:absolute;left:-999px;z-index:1 !important; /*Style for FF*/z-index:-1;/* for IE */}
 #kyodai_center{position:absolute;left:200px;top:100px;width:303px;height:203px;display: none;}
-#kyodai_speed{position:absolute;z-index:999;top:5px;left:5px;}
+#kyodai_speed{position:absolute;top:428px;left:445px;opacity: 0;}
 #kyodai_remain{color:#66CCFF; position:absolute;top:408px;right:280px;}
 #kyodai_board{color:#CCC; position:absolute;top:408px;left:550px;}
 #kyodai_combo{color:#CCC; position:absolute;top:408px;right:160px;}
