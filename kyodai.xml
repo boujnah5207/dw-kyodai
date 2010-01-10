@@ -6,7 +6,7 @@
 	screenshot="http://dw-kyodai.googlecode.com/svn/trunk/images/screen.jpg"
 	title="DW Kyodai"
 	title_url=""
-	thumbnail="http://dw-kyodai.googlecode.com/svn/trunk/images/thumb.jpg" height="395" render_inline="never" >
+	thumbnail="http://dw-kyodai.googlecode.com/svn/trunk/images/thumb.jpg" height="260" render_inline="never" >
 		
 	<Require feature="setprefs"/>
   <Require feature="views"/>
@@ -106,17 +106,17 @@
       }
       
       #rank{position:relative;left:95px;top: 23px;text-align:left;font-size:12px;font-weight:bold;}
-      .titlespan{color:#374D4F;line-height:20px;}
+      .titlespan{color:#374D4F;line-height:15px;}
       #mylevel{color:#53a9ff;}
       #myscore{color:#d70674;}
       #myrecord{color:#3DA500;}
+      #levelimg{position: absolute; left:80px;}
       #mainplay{position:relative; top: 60px; color: #FFFFFF; font-size:14px; font-weight: bold;text-align: center;}
     </style>
     
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 
     <script type="text/javascript">
-		  var area = 'public';
       var IMAGES_BASE = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
       var prefs = new _IG_Prefs();
       var totalscores = prefs.getInt("totalscores");
@@ -125,11 +125,7 @@
 
       //get's the images from the cache from the 'images' directory
       function getCachedImage(src) {
-        //return IMAGES_BASE+src;
-				if (area == 'public')
-					return _IG_GetImageUrl(IMAGES_BASE+src);
-				else
-					return ('images/' + src)
+        return _IG_GetImageUrl(IMAGES_BASE+src);
       }
             
       function switchToCanvas( params ) {
@@ -139,9 +135,10 @@
       
       function init(){ 
         $('#main').css('background','url'+'('+getCachedImage('main.png')+') no-repeat');
+        $("#levelimg").attr('src', getCachedImage('level'+level+'_small.png'));
         $('#mylevel').html('Level ' + level);
         $('#myscore').html(totalscores);
-				$('#myrecord').html(record);
+        $('#myrecord').html(record);
       }
 			
 			_IG_RegisterOnloadHandler(init);
@@ -151,10 +148,11 @@
     <div id="container" align="center">
       <div id="main" onclick="switchToCanvas();">
         <div id="rank">
-          <span class="titlespan">Level: </span> <span id="mylevel">Level 1</span><br/>
+          <img id="levelimg"/>
+          <span class="titlespan">Rank: </span> <span id="mylevel">Level 1</span><br/><br/>
           <span class="titlespan">Record: </span> <span id="myrecord">100</span><br/>
           <span class="titlespan">Scores: </span> <span id="myscore">1000000</span>
-         
+          
         </div>
         <div id="mainplay">Play Now!</div>
       </div>

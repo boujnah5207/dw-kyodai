@@ -10,8 +10,8 @@
 // Namespace assigned to this library of kyodai-related classes
 var kyodai = {mapX:19, mapY:11, mapLength:14};
 
-//kyodai.area = 'private';
 kyodai.area = 'public';
+//kyodai.area = 'private';
 kyodai.imageshost = 'http://dw-kyodai.googlecode.com/svn/trunk/images/';
 kyodai.scene = 'tooth';
 kyodai.totalscores = 0;
@@ -79,7 +79,6 @@ kyodai.preload = function()
   $("#kyodai_hover").attr('src', kyodai.getCachedImage('choose.png'));
   $("#kyodai_count img").attr('src', kyodai.getCachedImage('count.png'));
   $("#kyodai_ppt img").attr('src', kyodai.getCachedImage('notool.png'));
-  $("#levelimg").attr('src', kyodai.getCachedImage('level0.png'));
   
   if (kyodai.area == 'public'){
     kyodai.prefs = new _IG_Prefs();
@@ -89,10 +88,11 @@ kyodai.preload = function()
   }
 
   var itemImg = [];
+  /*
   for (i=0; i<42; i++)
   {
     itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage(kyodai.scene+'/'+ i + '.png') +'">');
-  }
+  }*/
   
   itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('linex.png') +'">');
   itemImg.push('<img class="preload" src="'+ kyodai.getCachedImage('liney.png') +'">');
@@ -112,8 +112,6 @@ kyodai.preload = function()
  */
 kyodai.start = function()
 {
-  $("#kyodai_scores").html("");
-  $("#kyodai_combo").html("");
   $("#kyodai_combo").css("color","#CCC");
   $("#kyodai_board").css("color","#CCC");
   $("#kyodai_center").css("display","none");
@@ -130,12 +128,6 @@ kyodai.start = function()
   $("#kyodai_ppt_2_num").click(function() {
     kyodai.use(2);
   });
-  // shortcuts
-  document.onkeydown = function()
-  {
-    if (event.keyCode==49 && kyodai.pptnum[1]) kyodai.use(1);
-    if (event.keyCode==50 && kyodai.pptnum[2]) kyodai.use(2);
-  };
   
   kyodai.scores = 0;
   kyodai.combo = 0;
@@ -398,8 +390,7 @@ kyodai.updatespeed = function()
     case 9 : $("#kyodai_speed").css("color","#FF0000");kyodai.add(3);
   }
   $("#kyodai_speed").html('Speed x ' + kyodai.speed + '<br/>+ ' + (kyodai.speedscore) + ' points');
-  $("#kyodai_speed").fadeIn("slow");
-  $("#kyodai_speed").fadeOut("slow");
+  $("#kyodai_speed").animate({opacity: 1}, 500 ).animate({opacity: 0}, 500 );
 }
 
 /**
@@ -436,8 +427,7 @@ kyodai.updatescore = function()
 kyodai.updateupdate = function(num)
 {
   $("#kyodai_update").html('+' + num + '!');
-  $("#kyodai_update").fadeIn("normal");
-  $("#kyodai_update").fadeOut("normal");
+  $("#kyodai_update").animate({opacity: 1}, 500 ).animate({opacity: 0}, 500 );
 }
 
 /**
