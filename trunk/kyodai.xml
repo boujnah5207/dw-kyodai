@@ -149,7 +149,7 @@
       <div id="main" onclick="switchToCanvas();">
         <div id="rank">
           <img id="levelimg"/>
-          <span class="titlespan">Rank: </span> <span id="mylevel">Level 1</span><br/><br/>
+          <span class="titlespan">Rank: </span><br/> <span id="mylevel">Level 1</span><br/>
           <span class="titlespan">Record: </span> <span id="myrecord">100</span><br/>
           <span class="titlespan">Scores: </span> <span id="myscore">1000000</span>
           
