@@ -5,6 +5,7 @@
 	description="Kyodai is a fun and addictive picture matching game. Click on the pair of block with the same picture as quickly as you can, before the timebar run out. The quicker you find, the higher the score you get. Have fun..."
 	screenshot="http://dw-kyodai.googlecode.com/svn/trunk/images/screen.jpg"
 	title="DW Kyodai"
+	directory_title = "DW Kyodai"
 	title_url=""
 	thumbnail="http://dw-kyodai.googlecode.com/svn/trunk/images/thumb.jpg" height="260" render_inline="never" >
 		
